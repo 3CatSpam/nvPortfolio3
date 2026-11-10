@@ -1,0 +1,5 @@
+# Redirections Cloudflare Pages : anciennes pages du premier portfolio vers les nouvelles
+# (les fichiers de l'ancien site, CV, previews, vidéos, gardent le même chemin dans public/)
+/index_old.html    /                 301
+/design.html       /                 301
+/project.html      /                 301

@@ -1,0 +1,87 @@
+---
+import Base from "../layouts/Base.astro";
+const miseAJour = "17 septembre 2026";
+---
+
+<Base titre="Confidentialité et cookies · Adam Gosmat" description="Comment le portfolio d'Adam Gosmat traite les données personnelles : formulaire de contact, hébergement, absence de cookies de suivi.">
+  <div class="mx-auto max-w-3xl px-5">
+    <header class="flex min-h-20 items-center justify-between gap-4 py-4">
+      <a href="/" class="grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label="Accueil">AG</a>
+      <a href="/mentions-legales/" class="etiquette bg-white">Mentions légales</a>
+    </header>
+
+    <main id="contenu" class="grid gap-6 [&_a]:underline [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:font-black [&_p]:mb-3 [&_section]:boite [&_section]:bg-white [&_section]:p-6 [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-6">
+      <h1 class="font-titre text-[clamp(2.6rem,7vw,5rem)] leading-none uppercase">Confidentialite et cookies</h1>
+      <p class="font-mono text-xs uppercase">Dernière mise à jour : {miseAJour}</p>
+
+      <section class="bg-c1!">
+        <h2>En bref</h2>
+        <ul>
+          <li>Aucun cookie de suivi, aucune mesure d'audience, aucune publicité.</li>
+          <li>Aucun compte, aucune base de données : le site ne stocke rien sur toi.</li>
+          <li>Si tu m'écris, ton message arrive dans ma boîte mail et sert uniquement à te répondre.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Responsable du traitement</h2>
+        <p>Adam Gosmat, éditeur du site. Contact : <a href="mailto:contact@adamgosmat.com">contact@adamgosmat.com</a>.</p>
+      </section>
+
+      <section>
+        <h2>Formulaire de contact et e-mails</h2>
+        <p>
+          Le formulaire ne transmet rien au site : il ouvre ta propre messagerie avec un e-mail pré-rempli, que tu choisis d'envoyer ou non. Si tu l'envoies, ou si tu
+          m'écris directement, je reçois :
+        </p>
+        <ul>
+          <li>ton nom et ton adresse e-mail ;</li>
+          <li>le contenu de ton message.</li>
+        </ul>
+        <p><strong>Finalité :</strong> répondre à ta demande (proposition de stage, de projet, question).</p>
+        <p>
+          <strong>Base légale :</strong> intérêt légitime à répondre aux personnes qui me contactent (article 6.1.f du Règlement général sur la protection des données, RGPD).
+        </p>
+        <p><strong>Destinataire :</strong> moi seul. Les e-mails transitent par les serveurs de ma messagerie et de la tienne. Ils ne sont ni vendus, ni cédés.</p>
+        <p><strong>Durée de conservation :</strong> au plus 3 ans après notre dernier échange, puis suppression.</p>
+      </section>
+
+      <section>
+        <h2>Hébergement et journaux techniques</h2>
+        <p>
+          Le site est hébergé par Cloudflare, Inc. (voir les <a href="/mentions-legales/">mentions légales</a>). Pour afficher les pages et protéger le site contre les
+          attaques, Cloudflare traite des données techniques de connexion, comme l'adresse IP et le type de navigateur. Cloudflare est situé aux États-Unis. Ces
+          transferts sont encadrés par le Data Privacy Framework UE–États-Unis, auquel Cloudflare adhère. Détails dans la
+          <a href="https://www.cloudflare.com/fr-fr/privacypolicy/">politique de confidentialité de Cloudflare</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Cookies et autres traceurs</h2>
+        <p>
+          Ce site ne dépose et ne lit aucun cookie ni traceur nécessitant ton consentement au sens de l'article 82 de la loi Informatique et Libertés : pas de mesure
+          d'audience, pas de publicité, pas de boutons de réseaux sociaux, pas de vidéos ou de polices chargées depuis des services tiers. C'est pour ça qu'aucun bandeau
+          cookies ne s'affiche.
+        </p>
+        <ul>
+          <li>
+            Cloudflare peut, uniquement pour la sécurité du site (détection de robots malveillants), utiliser un cookie technique strictement nécessaire. Ce type de
+            cookie est dispensé de consentement.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Tes droits</h2>
+        <p>
+          Tu peux demander l'accès à tes données, leur rectification, leur effacement, la limitation du traitement, ou t'y opposer (articles 15 à 21 du RGPD), en écrivant à
+          <a href="mailto:contact@adamgosmat.com">contact@adamgosmat.com</a>. Je réponds dans un délai d'un mois.
+        </p>
+        <p>
+          Si tu estimes que tes droits ne sont pas respectés, tu peux adresser une réclamation à la CNIL : <a href="https://www.cnil.fr/fr/adresser-une-plainte">www.cnil.fr/fr/adresser-une-plainte</a>,
+          ou par courrier à Commission nationale de l'informatique et des libertés, Service des plaintes, 3 place de Fontenoy, 75007 Paris.
+        </p>
+      </section>
+    </main>
+  </div>
+</Base>

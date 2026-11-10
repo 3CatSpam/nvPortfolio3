@@ -1,0 +1,52 @@
+---
+import { sansAccents, type Etude } from "../data/projets";
+
+interface Props {
+  etude: Etude;
+  index: number;
+}
+
+const { etude, index } = Astro.props;
+const numero = String(index + 1).padStart(2, "0");
+const inclinaison = [-1.5, 1.2, -0.8][index] ?? 0;
+---
+
+<!-- sticky : chaque carte s'arrête un peu plus loin que la précédente, donc elles s'empilent.
+     Ordinateur : empilement vers la gauche (left). Téléphone : empilement vers le haut (top). -->
+<article
+  class="boite sticky top-(--haut) w-full shrink-0 overflow-hidden bg-white md:top-auto md:left-(--gauche) md:h-[min(74vh,720px)] md:w-[min(780px,56vw)]"
+  style={`--gauche: calc(3rem + ${index} * 2.25rem); --haut: calc(1rem + ${index} * 1.5rem); rotate: ${inclinaison}deg; z-index: ${index + 1};`}
+>
+  <div class={`flex h-11 items-center justify-between gap-3 border-b-3 border-encre px-4 ${etude.couleur}`}>
+    <strong class="font-black uppercase">Projet {numero}</strong>
+    <span class="font-mono text-xs uppercase">{etude.categorie} · {etude.annee}</span>
+  </div>
+
+  <div class="grid md:h-[calc(100%-2.75rem)] md:grid-cols-[1.15fr_1fr]">
+    <div class="relative aspect-[16/11] border-b-3 border-encre bg-c3 md:aspect-auto md:h-full md:border-r-3 md:border-b-0">
+      {
+        etude.modele ? (
+          <model-viewer src={etude.modele} alt={`${etude.titre}, modèle 3D animé`} autoplay auto-rotate disable-zoom interaction-prompt="none" loading="lazy" class="absolute inset-0 size-full"></model-viewer>
+        ) : (
+          <img src={etude.image} alt={etude.titre} loading="lazy" class="absolute inset-0 size-full object-cover" />
+        )
+      }
+    </div>
+
+    <div class="flex flex-col justify-between gap-4 overflow-auto p-5 md:p-6">
+      <div>
+        <h3 class="font-titre text-4xl leading-none uppercase md:text-5xl">{sansAccents(etude.titre)}</h3>
+        <p class="mt-3 md:text-lg">{etude.resume}</p>
+      </div>
+      <ul class="flex flex-wrap gap-2">
+        {etude.tags.map((tag) => <li class="etiquette bg-white">{tag}</li>)}
+      </ul>
+      <a href={`/projets/${etude.slug}/`} class={`bouton self-start ${etude.couleur}`}>Lire l'étude →</a>
+    </div>
+  </div>
+</article>
+
+<script>
+  // Charge le lecteur 3D uniquement quand une carte en a besoin
+  if (document.querySelector("model-viewer")) import("@google/model-viewer");
+</script>

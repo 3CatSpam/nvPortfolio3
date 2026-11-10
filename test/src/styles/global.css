@@ -1,0 +1,450 @@
+@import "tailwindcss" source("..");
+
+/* Polices hébergées sur le site (aucune requête vers Google Fonts) */
+@import "@fontsource/archivo/400.css";
+@import "@fontsource/archivo/700.css";
+@import "@fontsource/archivo/900.css";
+@import "@fontsource/dm-mono/500.css";
+
+/* Polices de titre récupérées de l'ancien portfolio : une est tirée au sort à chaque visite */
+@font-face { font-family: "Audio Nugget"; src: url("/fonts/audio-nugget.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Library 3 AM"; src: url("/fonts/library-3-am.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Library 3 AM Soft"; src: url("/fonts/library-3-am-soft.woff") format("woff"); font-display: swap; }
+/* Lost Wages a un glyphe « 0 » vide : on l'exclut (U+0030) pour que le 0 retombe sur Archivo au lieu d'être invisible */
+@font-face { font-family: "Lost Wages"; src: url("/fonts/lost-wages.woff") format("woff"); font-display: swap; unicode-range: U+0000-002F, U+0031-10FFFF; }
+@font-face { font-family: "Marlboro"; src: url("/fonts/marlboro.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Clip"; src: url("/fonts/clip.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Seaside Resort NF"; src: url("/fonts/seaside-resort.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Souci Sans NF"; src: url("/fonts/souci-sans.woff") format("woff"); font-display: swap; }
+/* À déposer dans public/fonts pour qu'elles entrent dans le tirage */
+@font-face { font-family: "Akka"; src: url("/fonts/akka.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Husky Stash"; src: url("/fonts/husky-stash.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Spicy Sale"; src: url("/fonts/spicy-sale.woff") format("woff"); font-display: swap; }
+
+/* Couleurs, polices et ombres utilisables en classes Tailwind (bg-c1, font-titre, shadow-dur…)
+   c1 à c6, le fond et la police de titre sont tirés au hasard à chaque visite (script dans Base.astro).
+   Les valeurs ci-dessous servent si JavaScript est désactivé. Le texte reste toujours noir (encre). */
+@theme {
+  --color-fond: #fffdf4;
+  --color-encre: #111111;
+  --color-c1: #ffdb33;
+  --color-c2: #ff6b6b;
+  --color-c3: #6ec1ff;
+  --color-c4: #7ed6a0;
+  --color-c5: #b9a7ff;
+  --color-c6: #ff9f43;
+
+  --font-titre: "Audio Nugget", "Archivo", sans-serif;
+  --font-texte: "Archivo", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+
+  --shadow-dur: 6px 6px 0 0 #111111;
+  --shadow-dur-sm: 3px 3px 0 0 #111111;
+}
+
+/* Les 3 briques néo-brutalistes réutilisées partout */
+@utility boite {
+  border: 3px solid var(--color-encre);
+  border-radius: 10px;
+  box-shadow: var(--shadow-dur);
+}
+
+@utility bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 3px solid var(--color-encre);
+  border-radius: 10px;
+  box-shadow: var(--shadow-dur);
+  padding: 0.75rem 1.1rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: translate 0.1s, box-shadow 0.1s;
+  &:hover {
+    translate: 3px 3px;
+    box-shadow: var(--shadow-dur-sm);
+  }
+  &:active {
+    translate: 6px 6px;
+    box-shadow: none;
+  }
+}
+
+@utility etiquette {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.7rem;
+  border: 2px solid var(--color-encre);
+  border-radius: 6px;
+  box-shadow: var(--shadow-dur-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  /* Seules les étiquettes qui sont des liens (contact, réseaux, mentions légales…)
+     ont l'animation de pression, comme .bouton : les étiquettes purement
+     informatives (tags, "© 2026", pagination non cliquable) restent immobiles. */
+  &:is(a) {
+    transition: translate 0.1s, box-shadow 0.1s;
+  }
+  &:is(a):hover {
+    translate: 1px 1px;
+    box-shadow: 2px 2px 0 0 var(--color-encre);
+  }
+  &:is(a):active {
+    translate: 3px 3px;
+    box-shadow: none;
+  }
+}
+
+html {
+  background: var(--color-fond);
+  color: var(--color-encre);
+  font-family: var(--font-texte);
+}
+
+/* Lenis (défilement doux) : styles recommandés par la lib */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Le curseur custom est un popover "manual" (pour rester au-dessus des autres popovers) :
+   on annule les styles par défaut que le navigateur donne à un popover. */
+#curseur {
+  inset: auto;
+  margin: 0;
+  border: none;
+  padding: 0;
+  background: none;
+  overflow: visible;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-encre);
+  outline-offset: 3px;
+}
+
+/* Texte « À propos » : les mots passent du gris au noir pendant le défilement */
+[data-surligne] span {
+  color: rgb(17 17 17 / 0.18);
+  transition: color 0.2s;
+}
+[data-surligne] span.allume {
+  color: var(--color-encre);
+}
+
+/* Écran de chargement AG : repris de l'ancien portfolio (le AG et les barres changent de couleur) */
+.chargeur {
+  animation: sortie 0.5s ease 1.6s forwards;
+}
+@keyframes sortie {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.chargeur .ag {
+  animation: chargeur-ag 1.75s ease infinite;
+}
+.chargeur .barre {
+  animation: chargeur-barre 1.75s ease infinite;
+}
+.chargeur .barre:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.chargeur .barre:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes chargeur-ag {
+  50% {
+    background: var(--color-fond);
+  }
+}
+@keyframes chargeur-barre {
+  50% {
+    background: var(--color-c1);
+  }
+}
+
+/* Bande de logiciels qui défile */
+.bande {
+  animation: bande-h 22s linear infinite;
+}
+@keyframes bande-h {
+  to {
+    translate: -50% 0;
+  }
+}
+@media (min-width: 48rem) {
+  .bande {
+    animation-name: bande-v;
+  }
+  @keyframes bande-v {
+    to {
+      translate: 0 -50%;
+    }
+  }
+}
+
+/* Menu (popover) : les blocs penchés montent l'un après l'autre */
+#menu {
+  inset: auto;
+  left: 50%;
+  bottom: 5.5rem;
+  translate: -50% 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+  width: min(28rem, calc(100vw - 2rem));
+}
+#menu .bloc {
+  opacity: 0;
+  translate: 0 1.5rem;
+  rotate: var(--rot, 0deg);
+  transition:
+    opacity 0.2s,
+    translate 0.35s cubic-bezier(0.3, 1.6, 0.5, 1),
+    rotate 0.2s;
+  transition-delay: calc(var(--k) * 45ms);
+}
+#menu:popover-open .bloc {
+  opacity: 1;
+  translate: 0 0;
+}
+#menu .bloc:hover {
+  rotate: 0deg;
+}
+@starting-style {
+  #menu:popover-open .bloc {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+
+/* Petite fenêtre secrète (photo) qui s'ouvre depuis le pied de page */
+#lilas-fenetre {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+}
+#lilas-fenetre::backdrop {
+  background: rgb(17 17 17 / 0.35);
+}
+
+/* Brouillons à réécrire (visibles pour ne pas les oublier) */
+.brouillon {
+  background: color-mix(in srgb, var(--color-c1) 60%, transparent);
+  box-shadow: inset 0 -2px 0 var(--color-encre);
+}
+
+/* Moins de mouvement si l'utilisateur l'a demandé */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-surligne] span {
+    color: var(--color-encre);
+  }
+}
+
+/* --------------------------------------------------------------------
+   Briques supplémentaires, inspirées de neobrutalism.dev (composants
+   React/shadcn — inutilisables tels quels ici, le site n'a pas React).
+   On reprend juste leurs idées de style en CSS pur avec nos propres
+   couleurs/tokens. Rien ci-dessous n'est encore utilisé dans les pages :
+   ces classes ne changent donc rien à l'existant, elles seront à piocher
+   au fil des études de cas / de la page contact / du mini-jeu.
+   -------------------------------------------------------------------- */
+
+/* Variante "ombre inversée" de .boite, pour alterner l'orientation
+   des cartes sans casser le principe de la boîte à bordure + ombre dure. */
+@utility boite-inverse {
+  border: 3px solid var(--color-encre);
+  border-radius: 10px;
+  box-shadow: -6px -6px 0 0 var(--color-encre);
+}
+
+/* Encart d'alerte/notice (mentions légales, accessibilité…) :
+   boîte classique + liseré coloré à gauche + titre en majuscules. */
+@utility alerte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border: 3px solid var(--color-encre);
+  border-left-width: 10px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-dur-sm);
+  padding: 1rem 1.1rem;
+  background: var(--color-fond);
+}
+@utility alerte-titre {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Piste + remplissage façon néo-brutaliste, pour une éventuelle jauge
+   dans le mini-jeu "Empile" (hauteur de pile, score…). */
+@utility jauge {
+  display: block;
+  width: 100%;
+  height: 1.5rem;
+  border: 3px solid var(--color-encre);
+  border-radius: 8px;
+  background: var(--color-fond);
+  overflow: hidden;
+}
+@utility jauge-remplissage {
+  display: block;
+  height: 100%;
+  background: var(--color-c1);
+  border-right: 3px solid var(--color-encre);
+  transition: width 0.2s ease;
+}
+
+/* Accordéon en <details>/<summary> natif (pas de survol, juste un clic —
+   cohérent avec le refus des popups au survol). Utile pour des infos
+   complémentaires sur une étude de cas sans surcharger la page. */
+@utility accordeon {
+  border: 3px solid var(--color-encre);
+  border-radius: 10px;
+  box-shadow: var(--shadow-dur-sm);
+  overflow: hidden;
+  & > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    list-style: none;
+  }
+  & > summary::-webkit-details-marker {
+    display: none;
+  }
+  & > summary::after {
+    content: "+";
+    font-family: var(--font-mono);
+  }
+  &[open] > summary::after {
+    content: "−";
+  }
+  & > summary ~ * {
+    padding: 0 1rem 1rem;
+  }
+}
+
+/* Boîte bleue de l'accueil : les logiciels tournent en orbite autour du bouton CV (maquette Figma).
+   Cercle = 69 % de la largeur / 76 % de la hauteur de la boîte, tuile = 20,6 % / 23 %.
+   Même mouvement que les formes de la 404 : rotation linéaire continue. */
+.outils {
+  position: relative;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+.orbite {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(69cqw, 76cqh);
+  aspect-ratio: 1;
+  border: 2px dotted var(--color-encre);
+  border-radius: 50%;
+  animation: orbite 24s linear infinite;
+}
+.bras {
+  position: absolute;
+  inset: 0;
+  rotate: var(--a);
+  /* les bras se superposent : sans ça, le dernier (Blender) bloquait le survol des autres tuiles */
+  pointer-events: none;
+}
+.tuile {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: min(20.6cqw, 23cqh);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 3px solid var(--color-encre);
+  border-radius: 18%;
+  box-shadow: var(--shadow-dur);
+  /* contre-rotation : le logo reste droit pendant que l'orbite tourne */
+  animation: contre 24s linear infinite;
+  pointer-events: auto;
+  transition: scale 0.25s cubic-bezier(0.3, 1.8, 0.5, 1), box-shadow 0.15s;
+}
+.tuile:hover {
+  scale: 1.12;
+  box-shadow: 9px 9px 0 0 var(--color-encre);
+}
+@keyframes orbite {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes contre {
+  from {
+    rotate: calc(var(--a) * -1);
+  }
+  to {
+    rotate: calc(var(--a) * -1 - 360deg);
+  }
+}
+.tuile img {
+  display: block;
+}
+.logo-plein {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.logo-blender {
+  width: 60%;
+}
+.logo-figma {
+  width: 57%;
+  height: auto;
+}
+.bouton-cv {
+  position: relative;
+  z-index: 1;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+}
+@media (max-width: 47.99rem) {
+  .outils { min-height: 24rem; }
+}

@@ -1,0 +1,80 @@
+---
+import Base from "../layouts/Base.astro";
+const miseAJour = "17 septembre 2026";
+---
+
+<Base titre="Mentions légales · Adam Gosmat" description="Mentions légales du portfolio d'Adam Gosmat : éditeur, hébergeur, propriété intellectuelle et crédits.">
+  <div class="mx-auto max-w-3xl px-5">
+    <header class="flex min-h-20 items-center justify-between gap-4 py-4">
+      <a href="/" class="grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label="Accueil">AG</a>
+      <a href="/confidentialite/" class="etiquette bg-white">Confidentialité et cookies</a>
+    </header>
+
+    <main id="contenu" class="grid gap-6 [&_a]:underline [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:font-black [&_p]:mb-3 [&_section]:boite [&_section]:bg-white [&_section]:p-6 [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-6">
+      <h1 class="font-titre text-[clamp(2.6rem,7vw,5rem)] leading-none uppercase">Mentions legales</h1>
+      <p class="font-mono text-xs uppercase">Dernière mise à jour : {miseAJour}</p>
+
+      <section>
+        <h2>Éditeur du site</h2>
+        <p>
+          Le site adamgosmat.com est un portfolio personnel, non commercial, édité par <strong>Adam Gosmat</strong>, personne physique, étudiant en BUT MMI.
+        </p>
+        <p>Contact : <a href="mailto:contact@adamgosmat.com">contact@adamgosmat.com</a></p>
+        <p>
+          L'éditeur agit à titre non professionnel. Conformément à l'article 1-1 II de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), ses
+          coordonnées personnelles ont été communiquées à l'hébergeur, dont l'identité figure ci-dessous.
+        </p>
+        <p>Directeur de la publication : Adam Gosmat.</p>
+      </section>
+
+      <section>
+        <h2>Hébergeur</h2>
+        <p>
+          Cloudflare, Inc. (service Cloudflare Pages)<br />
+          101 Townsend Street, San Francisco, CA 94107, États-Unis<br />
+          Téléphone : +1 650 319 8930<br />
+          Site : <a href="https://www.cloudflare.com/">www.cloudflare.com</a>
+        </p>
+      </section>
+
+      <section>
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          Sauf mention contraire, les textes, visuels, modèles 3D, vidéos et le code de ce site sont la propriété d'Adam Gosmat. Toute reproduction ou réutilisation sans
+          autorisation écrite est interdite (articles L. 122-4 et L. 335-2 du Code de la propriété intellectuelle).
+        </p>
+        <p>
+          Les projets réalisés en équipe ou pour un client sont présentés avec la mention des autres auteurs et, le cas échéant, avec l'accord du client. Les marques et
+          sites cités appartiennent à leurs propriétaires respectifs.
+        </p>
+      </section>
+
+      <section>
+        <h2>Crédits</h2>
+        <ul>
+          <li>Conception, design et développement : Adam Gosmat.</li>
+          <li>Polices : Archivo et DM Mono (licence SIL Open Font License 1.1), Audio Nugget © Haley Wakamatsu / UkiyoMoji Fonts.</li>
+          <li>Outils : Astro (licence MIT), Tailwind CSS (licence MIT), model-viewer de Google (licence Apache 2.0).</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Liens externes</h2>
+        <p>
+          Le site contient des liens vers d'autres sites (LinkedIn, GitHub, projets en ligne). Leur contenu et leurs pratiques en matière de données ne dépendent pas de
+          l'éditeur.
+        </p>
+      </section>
+
+      <section>
+        <h2>Données personnelles et cookies</h2>
+        <p>Voir la page <a href="/confidentialite/">Confidentialité et cookies</a>.</p>
+      </section>
+
+      <section>
+        <h2>Droit applicable</h2>
+        <p>Le site et ces mentions sont soumis au droit français.</p>
+      </section>
+    </main>
+  </div>
+</Base>

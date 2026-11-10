@@ -1,0 +1,61 @@
+---
+import { etudes, sansAccents } from "../data/projets";
+
+// --k : ordre d'apparition · --rot : inclinaison du bloc
+const liens = [
+  { href: "/#accueil", texte: "Accueil", couleur: "bg-c1", rot: "-1.5deg" },
+  { href: "/#etudes", texte: "Projets", couleur: "bg-c3", rot: "1.2deg" },
+  { href: "/#travaux", texte: "Autres travaux", couleur: "bg-c5", rot: "-2deg" },
+  { href: "/#a-propos", texte: "A propos", couleur: "bg-c4", rot: "1.6deg" },
+  { href: "/#contact", texte: "Contact", couleur: "bg-c2", rot: "-1deg" },
+];
+---
+
+<!-- Bouton en bas au centre : il ouvre le menu (attribut popover, sans JavaScript) -->
+<button
+  popovertarget="menu"
+  class="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 rounded-xl border-3 border-encre bg-white py-1.5 pr-1.5 pl-4 font-black uppercase shadow-dur"
+>
+  Menu
+  <span class="grid size-9 place-items-center rounded-md border-2 border-encre bg-c1 text-sm">AG</span>
+</button>
+
+<nav id="menu" popover aria-label="Menu principal">
+  <ul class="flex flex-col gap-2.5">
+    {
+      liens.map((lien, k) => (
+        <>
+          <li class="bloc" style={`--k: ${k}; --rot: ${lien.rot}`}>
+            <a href={lien.href} class={`boite flex items-center justify-between px-4 py-3 font-titre text-3xl uppercase ${lien.couleur}`}>
+              {lien.texte}
+            </a>
+          </li>
+
+          {/* Les 3 projets se déplient juste sous « Projets », en plus petit et décalés */}
+          {lien.href === "/#etudes" &&
+            etudes.map((etude, i) => (
+              <li class="bloc ml-10" style={`--k: ${k + i / 2 + 0.5}; --rot: ${i % 2 ? "1.4deg" : "-1.4deg"}`}>
+                <a href={`/projets/${etude.slug}/`} class="boite flex items-center gap-3 bg-white px-4 py-2 font-titre text-xl uppercase">
+                  <span class="font-mono text-xs">0{i + 1}</span>
+                  {sansAccents(etude.titre)}
+                </a>
+              </li>
+            ))}
+        </>
+      ))
+    }
+
+    <li class="bloc flex flex-wrap gap-2" style="--k: 7; --rot: 0.8deg">
+      <a href="/mentions-legales/" class="etiquette bg-white">Mentions légales</a>
+      <a href="/confidentialite/" class="etiquette bg-white">Confidentialité et cookies</a>
+    </li>
+  </ul>
+</nav>
+
+<script>
+  // Fermer le menu quand on clique sur un lien
+  const menu = document.querySelector<HTMLElement>("#menu");
+  menu?.querySelectorAll("a").forEach((lien) => {
+    lien.addEventListener("click", () => menu.hidePopover());
+  });
+</script>

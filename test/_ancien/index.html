@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TEST · Adam Gosmat · Design graphique &amp; 3D</title>
+  <meta name="description" content="Test : le portfolio avec la DA de la page 404." />
+  <link rel="icon" href="../public/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="../node_modules/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <a href="#contenu" class="etiquette skip bg-c1">Aller au contenu</a>
+
+  <!-- ============ 1. ACCUEIL ============ -->
+  <header class="haut">
+    <a href="#accueil" class="logo" aria-label="Accueil">AG</a>
+    <div class="haut-tags">
+      <span class="etiquette bg-c4">BUT MMI · 2e année</span>
+      <span class="etiquette bg-white">Montbéliard</span>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section id="accueil" class="hero pois">
+      <span class="deco deco--etoile bg-c3" aria-hidden="true"></span>
+      <span class="deco deco--rond boite bg-c4" aria-hidden="true"></span>
+      <span class="deco deco--carre boite bg-c5" aria-hidden="true"></span>
+      <span class="deco deco--etoile2 bg-c6" aria-hidden="true"></span>
+
+      <div class="hero-centre">
+        <p class="etiquette bg-c2" style="rotate:-2deg">Portfolio · Design graphique &amp; 3D</p>
+
+        <h1 class="nom" aria-label="Adam Gosmat">
+          <span class="mot" aria-hidden="true">
+            <span class="lettre boite font-titre bg-c1" style="--tilt:-6deg">A</span>
+            <span class="lettre boite font-titre bg-c2" style="--tilt:4deg">D</span>
+            <span class="lettre lettre--rond boite font-titre bg-c3" style="--tilt:-3deg">A</span>
+            <span class="lettre boite font-titre bg-c4" style="--tilt:5deg">M</span>
+          </span>
+          <span class="mot" aria-hidden="true">
+            <span class="lettre boite font-titre bg-c5" style="--tilt:3deg">G</span>
+            <span class="lettre boite font-titre bg-c6" style="--tilt:-5deg">O</span>
+            <span class="lettre boite font-titre bg-c1" style="--tilt:4deg">S</span>
+            <span class="lettre boite font-titre bg-c3" style="--tilt:-4deg">M</span>
+            <span class="lettre boite font-titre bg-c2" style="--tilt:6deg">A</span>
+            <span class="lettre boite font-titre bg-c4" style="--tilt:-2deg">T</span>
+          </span>
+        </h1>
+
+        <!-- Faux terminal -->
+        <div class="boite log bg-white">
+          <p style="--i:0">&gt; qui_suis_je <span class="clignote">▍</span></p>
+          <p style="--i:1">&gt; <b>adam gosmat</b> · étudiant BUT MMI</p>
+          <p style="--i:2">&gt; je dessine des identités et je modélise des objets en 3D</p>
+          <p style="--i:3" class="gras">✓ disponible pour fabriquer un truc</p>
+        </div>
+
+        <div class="boutons">
+          <a href="#projets" class="bouton bg-c1">Voir les projets →</a>
+          <a href="#contact" class="bouton bg-white">Me contacter</a>
+        </div>
+      </div>
+
+      <div class="bande bande--a" aria-hidden="true">
+        <div class="piste"></div>
+      </div>
+    </section>
+
+    <!-- ============ 2. A PROPOS ============ -->
+    <section id="a-propos" class="apropos">
+      <div class="apropos-grille">
+        <div class="pastille-boite boite bg-c3">
+          <svg viewBox="0 0 200 200" class="pastille" aria-hidden="true">
+            <defs><path id="cercle-texte" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"></path></defs>
+            <circle cx="100" cy="100" r="95" stroke="#111" stroke-width="5" class="f-c2"></circle>
+            <text font-family="DM Mono, monospace" font-size="17" font-weight="500" letter-spacing="3" fill="#111"><textPath href="#cercle-texte">DESIGN &amp; 3D • ADAM GOSMAT •</textPath></text>
+            <circle cx="100" cy="100" r="36" stroke="#111" stroke-width="5" class="f-c1"></circle>
+            <text x="100" y="111" text-anchor="middle" font-family="Archivo, sans-serif" font-size="30" font-weight="900" fill="#111">AG</text>
+          </svg>
+          <ul class="tags">
+            <li class="etiquette bg-white">Blender</li><li class="etiquette bg-white">Illustrator</li><li class="etiquette bg-white">Photoshop</li><li class="etiquette bg-white">After Effects</li><li class="etiquette bg-white">Figma</li>
+          </ul>
+          <a href="../public/CV_GOSMAT_Adam.pdf" class="bouton bg-white">CV (PDF) ↓</a>
+        </div>
+        <div>
+          <p class="etiquette bg-c5" style="rotate:-2deg">À propos · 01</p>
+          <p data-surligne class="gros">Salut, moi c'est Adam. Je passe d'Illustrator à Blender sans changer de cerveau : une identité, un objet, un rendu, tout part d'un croquis et d'une raison d'exister. Voici trois projets que j'ai poussés jusqu'au bout.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="bande bande--b" aria-hidden="true"><div class="piste"></div></div>
+
+    <!-- ============ 3. PROJETS ============ -->
+    <section id="projets" class="projets pois">
+      <span class="deco deco--rond boite bg-c2" style="top:6%;left:4%;right:auto" aria-hidden="true"></span>
+      <span class="deco deco--etoile bg-c1" style="top:55%;left:auto;right:3%" aria-hidden="true"></span>
+      <h2 class="titre-section font-titre">Projets</h2>
+
+      <div class="pile">
+        <article class="carte boite" style="--rot:-1.5deg; --n:0">
+          <div class="carte-barre bg-c3"><strong>Projet 01</strong><span>3D · Animation · 2026</span></div>
+          <div class="carte-corps">
+            <div class="carte-media bg-c3">
+              <model-viewer src="../public/models/wankel.glb" alt="Moteur Wankel, modèle 3D animé" autoplay auto-rotate disable-zoom interaction-prompt="none" loading="lazy"></model-viewer>
+            </div>
+            <div class="carte-texte">
+              <div>
+                <h3 class="font-titre">Moteur Wankel</h3>
+                <p>Chambre à piston rotatif modélisée pièce par pièce et animée : on voit le rotor faire son cycle.</p>
+              </div>
+              <ul class="tags"><li class="etiquette bg-white">Blender</li><li class="etiquette bg-white">Méca</li><li class="etiquette bg-white">Animation</li></ul>
+              <a href="#contact" class="bouton bg-c3">Lire l'étude →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="carte boite" style="--rot:1.2deg; --n:1">
+          <div class="carte-barre bg-c1"><strong>Projet 02</strong><span>3D · Produit · 2025</span></div>
+          <div class="carte-corps">
+            <div class="carte-media bg-c1"><img src="../public/previews/khromapen_ultra.webp" alt="Khromapen Ultra" loading="lazy" /></div>
+            <div class="carte-texte">
+              <div>
+                <h3 class="font-titre">Khromapen Ultra</h3>
+                <p>Version luxe du stylo Khromapen : matériaux métalliques, reflets, éclairage studio.</p>
+              </div>
+              <ul class="tags"><li class="etiquette bg-white">Blender</li><li class="etiquette bg-white">PBR</li><li class="etiquette bg-white">Lighting</li></ul>
+              <a href="#contact" class="bouton bg-c1">Lire l'étude →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="carte boite" style="--rot:-0.8deg; --n:2">
+          <div class="carte-barre bg-c4"><strong>Projet 03</strong><span>Web · 3D · 2025</span></div>
+          <div class="carte-corps">
+            <div class="carte-media bg-c4"><img src="../public/previews/vassil.webp" alt="Vassil.fr" loading="lazy" /></div>
+            <div class="carte-texte">
+              <div>
+                <h3 class="font-titre">Vassil.fr</h3>
+                <p>Refonte du site d'un sculpteur animalier, avec intégration 3D légère.</p>
+              </div>
+              <ul class="tags"><li class="etiquette bg-white">Figma</li><li class="etiquette bg-white">Blender</li><li class="etiquette bg-white">Web</li></ul>
+              <a href="#contact" class="bouton bg-c4">Lire l'étude →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 4. AUTRES TRAVAUX ============ -->
+    <section id="travaux" class="travaux">
+      <p class="etiquette bg-c6" style="rotate:2deg">Archives · 06</p>
+      <h2 class="titre-section font-titre">Autres travaux</h2>
+      <ul class="liste boite">
+        <li class="ligne h-c1"><img src="../public/previews/mini/ESTRN_typo.webp" alt="" loading="lazy" /><a href="#contact">ESTRN →</a><span class="cat">Typographie</span><span>2025</span></li>
+        <li class="ligne h-c3"><img src="../public/previews/mini/chateau.webp" alt="" loading="lazy" /><a href="#contact">Château →</a><span class="cat">3D · Blender</span><span>2025</span></li>
+        <li class="ligne h-c2"><img src="../public/previews/mini/eishi.webp" alt="" loading="lazy" /><a href="http://eishi.free.nf" target="_blank" rel="noopener">Eishi ↗</a><span class="cat">Branding · Web</span><span>2025</span></li>
+        <li class="ligne h-c4"><img src="../public/previews/mini/eye.webp" alt="" loading="lazy" /><a href="#contact">Vision →</a><span class="cat">Logo</span><span>2025</span></li>
+        <li class="ligne h-c6"><img src="../public/images/mini/urbex.webp" alt="" loading="lazy" /><a href="#contact">Le Monde de l'Urbex →</a><span class="cat">Webdocumentaire</span><span>2025</span></li>
+        <li class="ligne h-c3"><img src="../public/previews/3cs/mini_starfield.webp" alt="" loading="lazy" /><a href="#contact">3CS Browser →</a><span class="cat">Logiciel · Swift</span><span>2026</span></li>
+      </ul>
+    </section>
+
+    <div class="bande bande--c" aria-hidden="true"><div class="piste"></div></div>
+
+    <!-- ============ 5. CONTACT ============ -->
+    <section id="contact" class="contact">
+      <div class="contact-haut">
+        <span class="etiquette bg-white">Contact</span>
+        <div id="pastilles" class="pastilles" role="group" aria-label="Couleur du fond"></div>
+      </div>
+      <h2 class="font-titre contact-titre">On fabrique un truc ?</h2>
+
+      <div class="contact-grille">
+        <form id="formulaire" class="boite bg-white formulaire">
+          <label>Nom<input name="nom" autocomplete="name" required /></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" required /></label>
+          <label class="large">Message<textarea name="message" rows="3" required></textarea></label>
+          <button type="submit" class="bouton bg-c1">Envoyer →</button>
+        </form>
+
+        <div class="boite log bg-white log--contact">
+          <p>&gt; contact --liste</p>
+          <p><a href="mailto:contact@adamgosmat.com">contact@adamgosmat.com</a></p>
+          <p><a href="https://www.linkedin.com/in/adam-gosmat-98a2902a7/">linkedin</a> · <a href="https://github.com/3CatSpam">github</a></p>
+          <p><a href="../public/CV_GOSMAT_Adam.pdf">cv.pdf</a></p>
+          <p class="gras">✓ réponse sous peu <span class="clignote">▍</span></p>
+        </div>
+      </div>
+
+      <footer class="pied">
+        <span class="etiquette bg-white">© 2026</span>
+        <span class="etiquette bg-white">Page de test · DA de la 404</span>
+      </footer>
+    </section>
+  </main>
+
+  <nav class="menu" aria-label="Menu principal">
+    <a href="#accueil" class="bg-c1">Accueil</a>
+    <a href="#a-propos" class="bg-c4">À propos</a>
+    <a href="#projets" class="bg-c3">Projets</a>
+    <a href="#travaux" class="bg-c5">Travaux</a>
+    <a href="#contact" class="bg-c2">Contact</a>
+  </nav>
+</body>
+</html>

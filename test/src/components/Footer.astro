@@ -1,0 +1,23 @@
+<ul class="flex flex-wrap items-center gap-3">
+  <li><a href="/mentions-legales/" class="etiquette bg-white">Mentions légales</a></li>
+  <li><a href="/confidentialite/" class="etiquette bg-white">Confidentialité</a></li>
+  <li class="etiquette bg-white">© 2026</li>
+  <li><button type="button" popovertarget="lilas-fenetre" class="group grid size-8 place-items-center" aria-label="Secret"><span class="size-2.5 rounded-full bg-fond opacity-20 transition-opacity group-hover:opacity-100"></span></button></li>
+</ul>
+
+<div id="lilas-fenetre" popover>
+  <div class="relative">
+    <button popovertarget="lilas-fenetre" popovertargetaction="hide" class="absolute -top-3 -right-3 z-10 grid size-10 place-items-center rounded-lg border-3 border-encre bg-c2 font-black shadow-dur-sm" aria-label="Fermer">✕</button>
+    <div class="boite inline-flex flex-col overflow-hidden bg-c5">
+      <div class="relative flex h-12 shrink-0 items-center border-b-3 border-encre bg-fond px-3">
+        <div class="flex items-center gap-1.5" aria-hidden="true">
+          <i class="size-3.5 rounded-full border-2 border-encre bg-c2"></i>
+          <i class="size-3.5 rounded-full border-2 border-encre bg-c1"></i>
+          <i class="size-3.5 rounded-full border-2 border-encre bg-c4"></i>
+        </div>
+        <p class="absolute left-1/2 -translate-x-1/2 font-mono text-xs uppercase">Lilas</p>
+      </div>
+      <img src="/images/lilas.png" alt="Lilas" class="max-h-[min(22rem,calc(100vh-6rem))] max-w-[min(16rem,calc(100vw-3rem))] block object-contain" />
+    </div>
+  </div>
+</div>

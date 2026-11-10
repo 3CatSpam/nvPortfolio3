@@ -1,0 +1,63 @@
+<!-- Curseur carré qui s'oriente dans le sens du mouvement de la souris.
+     C'est un <div> (pas un <svg>) car showPopover()/:popover-open n'existent que sur HTMLElement. -->
+<div id="curseur" popover="manual" class="pointer-events-none fixed top-0 left-0 z-50 hidden size-7" aria-hidden="true">
+  <svg viewBox="0 0 28 28" class="size-full">
+    <rect x="1.5" y="1.5" width="25" height="25" rx="4" fill="#111" stroke-width="1.5" class="stroke-fond"></rect>
+    <path d="M9 8l11 6-11 6 3-6z" class="fill-c1"></path>
+  </svg>
+</div>
+
+<style>
+  @media (pointer: fine) {
+    :global(html.curseur-actif),
+    :global(html.curseur-actif *) {
+      cursor: none;
+    }
+  }
+</style>
+
+<script>
+  const curseur = document.querySelector<HTMLElement>("#curseur")!;
+  const sourisPrecise = matchMedia("(pointer: fine)").matches;
+  let dernierX = 0;
+  let dernierY = 0;
+  let angle = 0;
+
+  // Les popovers (menu, fenêtre secrète) vivent dans une couche à part (le "top layer"), toujours au-dessus
+  // du z-index normal. Le curseur doit donc lui aussi être un popover pour rester visible par-dessus.
+  function auPremierPlan() {
+    if (curseur.matches(":popover-open")) curseur.hidePopover();
+    curseur.showPopover();
+  }
+
+  if (sourisPrecise) {
+    auPremierPlan();
+
+    window.addEventListener("mousemove", (e) => {
+      const dx = e.clientX - dernierX;
+      const dy = e.clientY - dernierY;
+
+      // On ne change l'angle que si la souris a vraiment bougé (évite les tremblements)
+      if (dx * dx + dy * dy > 9) {
+        const cible = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const ecart = ((((cible - angle) % 360) + 540) % 360) - 180; // chemin le plus court
+        angle += ecart * 0.35;
+        dernierX = e.clientX;
+        dernierY = e.clientY;
+      }
+
+      curseur.style.transform = `translate(${e.clientX - 14}px, ${e.clientY - 14}px) rotate(${angle}deg)`;
+      curseur.classList.remove("hidden");
+      document.documentElement.classList.add("curseur-actif");
+    });
+
+    document.addEventListener("mouseleave", () => curseur.classList.add("hidden"));
+
+    // Repasse le curseur devant chaque fois qu'un autre popover s'ouvre.
+    ["menu", "lilas-fenetre"].forEach((id) => {
+      document.getElementById(id)?.addEventListener("toggle", (e) => {
+        if ((e as ToggleEvent).newState === "open") auPremierPlan();
+      });
+    });
+  }
+</script>

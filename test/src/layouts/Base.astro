@@ -1,0 +1,121 @@
+---
+import "../styles/global.css";
+import Menu from "../components/Menu.astro";
+import Curseur from "../components/Curseur.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  titre: string;
+  description: string;
+  classeBody?: string;
+  // Pied de page (mentions légales, confidentialité…). Désactivé sur l'accueil, qui l'intègre à sa section contact.
+  pied?: boolean;
+}
+
+const { titre, description, classeBody = "", pied = true } = Astro.props;
+const canonique = new URL(Astro.url.pathname, Astro.site);
+// Image affichée quand on partage le lien (LinkedIn, messageries…)
+const imagePartage = new URL("/og.png", Astro.site);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonique} />
+    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={titre} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonique} />
+    <meta property="og:image" content={imagePartage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Adam Gosmat, identités graphiques et 3D" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <slot name="head" />
+
+    <!-- Lenis (défilement doux), copié dans public/vendor pour ne pas toucher à node_modules -->
+    <script is:inline defer src="/vendor/lenis.min.js"></script>
+
+    <!-- Couleurs et police de titre tirées au hasard à chaque visite, avant l'affichage.
+         Le texte courant et les contours restent noirs. -->
+    <script is:inline>
+      (() => {
+        const accents = ["#ffdb33", "#ff6b6b", "#6ec1ff", "#7ed6a0", "#b9a7ff", "#ff9f43"].sort(() => Math.random() - 0.5);
+        const fonds = ["#fffdf4", "#f5f1ff", "#eef7ff", "#effaf2", "#fff4ea", "#fff1f1"];
+        const polices = [
+          "Audio Nugget",
+          "Library 3 AM",
+          "Library 3 AM Soft",
+          "Lost Wages",
+          "Marlboro",
+          "Clip",
+          "Seaside Resort NF",
+          "Souci Sans NF",
+          "Akka",
+          "Husky Stash",
+          "Spicy Sale",
+        ];
+        const racine = document.documentElement.style;
+
+        accents.forEach((couleur, i) => racine.setProperty(`--color-c${i + 1}`, couleur));
+        racine.setProperty("--color-fond", fonds[Math.floor(Math.random() * fonds.length)]);
+
+        const tirer = () => polices[Math.floor(Math.random() * polices.length)];
+        const appliquer = (police) => racine.setProperty("--font-titre", `"${police}", "Archivo", sans-serif`);
+        appliquer(tirer());
+
+        // Une police différente par titre (tirées au sort, jamais deux fois la même tant qu'il en reste).
+        // On vérifie que chaque police s'est bien chargée, sinon on en essaie une autre pour ce titre-là.
+        async function assignerPolices() {
+          const pile = [...polices].sort(() => Math.random() - 0.5);
+          const prochaine = () => (pile.length ? pile.shift() : tirer());
+
+          for (const titre of document.querySelectorAll(".font-titre")) {
+            let police = prochaine();
+            for (let essai = 0; essai < polices.length; essai++) {
+              try {
+                await document.fonts?.load(`32px "${police}"`);
+                if (!document.fonts || document.fonts.check(`32px "${police}"`)) break;
+              } catch (e) {}
+              police = prochaine();
+            }
+            titre.style.fontFamily = `"${police}", "Archivo", sans-serif`;
+          }
+        }
+
+        if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", assignerPolices);
+        else assignerPolices();
+      })();
+    </script>
+  </head>
+  <body class={classeBody}>
+    <a href="#contenu" class="etiquette sr-only bg-c1 focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50">Aller au contenu</a>
+    <slot />
+    {
+      pied && (
+        <footer class="mx-auto max-w-6xl px-5 pt-6 pb-32">
+          <Footer />
+        </footer>
+      )
+    }
+    <Menu />
+    <Curseur />
+  </body>
+</html>
+
+<script>
+  // Défilement doux (Lenis). Il lisse seulement la molette : le scroll vertical de la page reste le vrai
+  // window.scrollY, donc le défilement horizontal de l'accueil (qui recopie scrollY) continue de marcher.
+  // Désactivé si l'utilisateur demande moins de mouvement. Sur tactile, le scroll natif reste inchangé.
+  const Lenis = (window as any).Lenis;
+  if (Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    (window as any).lenis = new Lenis({ autoRaf: true, lerp: 0.1, wheelMultiplier: 1 });
+  }
+</script>
