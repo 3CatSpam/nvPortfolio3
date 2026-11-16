@@ -20,7 +20,6 @@ const personne = {
 <Base pied={false} titre="Adam Gosmat · Design graphique & 3D" description="Portfolio d'Adam Gosmat, étudiant en BUT MMI : identités visuelles, modélisation et animation 3D.">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(personne)} />
 
-  <!-- Écran de chargement AG (CSS uniquement) -->
   <div class="chargeur fixed inset-0 z-50 grid place-items-center bg-fond" aria-hidden="true">
     <div class="boite flex items-center gap-6 bg-white px-10 py-7">
       <span class="ag grid size-14 place-items-center rounded-full border-3 border-encre bg-c2 font-black shadow-dur-sm">AG</span>
@@ -32,11 +31,9 @@ const personne = {
     </div>
   </div>
 
-  <!-- Sur ordinateur : on scrolle normalement vers le bas, et le <main> (collé à l'écran) avance de gauche à droite.
-       #piste est juste une boîte très haute qui crée la longueur de scroll. -->
+  <!-- Scroll horizontal : #piste est haute pour allonger le scroll, <main> sticky défile en scrollLeft -->
   <div id="piste">
   <main id="contenu" class="md:sticky md:top-0 md:flex md:h-dvh md:overflow-hidden">
-    <!-- 1. Accueil -->
     <section id="accueil" class="flex flex-col gap-5 p-5 pb-24 md:h-full md:w-screen md:shrink-0 md:px-10">
       <header class="flex h-14 items-center justify-between">
         <a href="/#accueil" class="grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label="Accueil">AG</a>
@@ -48,7 +45,7 @@ const personne = {
 
       <div class="grid flex-1 gap-6 md:grid-cols-[5fr_7fr]">
         <div class="boite relative flex min-h-0 flex-col justify-between gap-5 bg-white p-6">
-          <span class="etiquette absolute -top-4 -right-2 rotate-6 bg-c2">Design graphique &amp; 3D</span>
+          <span class="etiquette absolute -top-6 -right-3 rotate-6 bg-c2 h-12! border-3! px-5! text-base! md:h-14! md:px-6! md:text-xl!">Design graphique &amp; 3D</span>
           <h1 class="font-titre text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.92] uppercase">Adam<br />Gosmat</h1>
           <p class="max-w-[40ch] text-lg font-medium md:text-2xl">
             Je dessine des identités et je modélise des objets en 3D. <span class="brouillon">[Phrase de positionnement : ce que je cherche, pour qui.]</span>
@@ -72,10 +69,10 @@ const personne = {
       </div>
     </section>
 
-    <!-- 2. Bande de logiciels -->
     <div class="overflow-hidden border-y-3 border-encre bg-c1 md:h-full md:w-24 md:shrink-0 md:border-x-3 md:border-y-0" aria-hidden="true">
       <div class="bande flex w-max md:w-auto md:flex-col">
         {
+          /* Doublée : l'animation va à -50 %, la boucle est sans saut */
           [...logiciels, ...logiciels].map((nom) => (
             <span class="px-4 py-4 text-2xl font-black whitespace-nowrap md:rotate-180 uppercase md:mx-auto md:px-0 md:[writing-mode:vertical-rl]">{nom} ✦</span>
           ))
@@ -83,24 +80,22 @@ const personne = {
       </div>
     </div>
 
-    <!-- 3. À propos -->
     <section id="a-propos" class="flex items-center gap-8 px-5 py-20 max-md:flex-col max-md:items-start md:h-full md:w-[min(1150px,92vw)] md:shrink-0 md:px-14">
       <p data-surligne class="text-[clamp(2rem,4.2vw,4rem)] leading-[1.1] font-bold tracking-tight">
         Salut, moi c'est Adam. Je passe d'Illustrator à Blender sans changer de cerveau : une identité, un objet, un rendu, tout part d'un croquis et d'une raison d'exister. Voici trois projets que j'ai poussés jusqu'au bout.
       </p>
     </section>
 
-    <!-- 4. Projets (ils s'empilent en défilant) -->
     <section id="etudes" class="flex flex-col gap-9 px-5 py-10 md:h-full md:shrink-0 md:flex-row md:items-center md:pl-10">
       <h2 class="relative z-10 font-titre text-[clamp(2.8rem,5vw,4.8rem)] leading-[0.95] uppercase md:w-auto md:shrink-0 md:rotate-180 md:text-[7.5rem] md:[writing-mode:vertical-rl]">Projets</h2>
       {etudes.map((etude, index) => <CarteEtude etude={etude} index={index} />)}
-      <!-- Petite pause avant que la pile reparte (le sticky s'arrête au bout de la section) -->
+      <!-- Marge de fin pour que le sticky se libère -->
       <div class="h-10 shrink-0 md:h-auto md:w-10" aria-hidden="true"></div>
     </section>
 
-    <!-- 5. Autres travaux -->
     <section id="travaux" class="flex flex-col justify-center gap-6 border-b-3 border-encre px-5 py-16 md:h-full md:w-[min(1240px,94vw)] md:shrink-0 md:border-r-3 md:border-b-0 md:px-10">
       <h2 class="font-titre text-[clamp(2.8rem,5vw,4.8rem)] leading-[0.95] uppercase">Autres travaux</h2>
+      <!-- after:inset-0 rend la ligne entière cliquable -->
       <ul id="liste-travaux" class="boite divide-y-2 divide-encre bg-white">
         {
           travaux.map((travail) => (
@@ -118,24 +113,21 @@ const personne = {
         }
       </ul>
 
-      <!-- Popup d'aperçu qui suit la souris quand on survole une ligne (souris fine uniquement) -->
       <div id="apercu-travail" class="boite pointer-events-none fixed top-0 left-0 z-40 hidden w-56 origin-top-left scale-90 overflow-hidden bg-white opacity-0 transition-[scale,opacity] duration-150 ease-out will-change-transform" aria-hidden="true">
         <img class="aspect-square w-full object-cover" alt="" decoding="async" />
       </div>
     </section>
 
-    <!-- 6. Contact : le fond change de couleur tout seul -->
-    <!-- Exactement un écran : 100dvh de haut (et 100vw de large sur ordinateur) -->
+    <!-- Un écran exactement (100dvh) -->
     <section id="contact" class="flex min-h-dvh flex-col justify-between gap-[clamp(0.75rem,2.5vh,1.5rem)] md:h-dvh md:min-h-0 md:overflow-hidden border-encre px-5 pt-6 pb-24 transition-colors duration-[1500ms] md:w-screen md:shrink-0 md:px-10">
       <div class="flex items-center justify-between gap-3">
         <span class="etiquette bg-white">Contact</span>
         <div id="pastilles" class="flex items-center gap-2.5" role="group" aria-label="Couleur du fond"></div>
       </div>
 
-      <!-- La taille dépend aussi de la hauteur d'écran (vh) pour que tout tienne dans un écran -->
       <h2 class="font-titre text-[clamp(2.5rem,min(7.5vw,12vh),8rem)] leading-[0.9] uppercase">On fabrique un truc ?</h2>
 
-      <!-- Le formulaire ouvre la messagerie du visiteur : aucune donnée n'est stockée par le site -->
+      <!-- mailto : rien n'est stocké côté site -->
       <form id="formulaire" action="mailto:contact@adamgosmat.com" method="post" enctype="text/plain" class="boite grid max-w-4xl gap-3 bg-white p-5 md:grid-cols-2">
         <label class="flex flex-col gap-1.5 font-mono text-xs uppercase">
           Nom
@@ -173,31 +165,31 @@ const personne = {
   const ordinateur = matchMedia("(min-width: 48rem)");
   const defilement = document.querySelector<HTMLElement>("#contenu")!;
 
-  // --- 1. Scroll vertical → défilement de gauche à droite (sur ordinateur) ---
-  // Le <main> est collé à l'écran (sticky). On donne à #piste la hauteur nécessaire,
-  // puis on recopie le scroll vertical de la page dans le scroll horizontal du <main>.
-  // Comme le <main> défile vraiment (scrollLeft), les cartes en "sticky left" s'empilent toutes seules.
+  // --- Scroll vertical → horizontal (ordinateur) ---
+  // scrollY est recopié dans le scrollLeft du <main> sticky.
   const piste = document.querySelector<HTMLElement>("#piste")!;
 
+  // Hauteur de #piste = largeur à parcourir + 1 écran, pour finir pile sur la dernière section
   function mesurer() {
     piste.style.height = ordinateur.matches ? `${defilement.scrollWidth - innerWidth + innerHeight}px` : "";
     suivreScroll();
   }
 
+  // Recopie scrollY → scrollLeft
   function suivreScroll() {
     if (ordinateur.matches) defilement.scrollLeft = window.scrollY;
   }
 
   window.addEventListener("scroll", suivreScroll, { passive: true });
   window.addEventListener("resize", mesurer);
-  window.addEventListener("load", mesurer); // une fois les images et polices chargées
+  window.addEventListener("load", mesurer); // largeurs finales connues
   mesurer();
 
-  // Liens du menu (/#etudes…) : sur ordinateur, on scrolle la page jusqu'à la position horizontale de la section
+  // Va à une section : offsetLeft sert de scrollY sur ordinateur
   function allerA(id: string, douceur: ScrollBehavior) {
     const cible = document.getElementById(id);
     if (!cible) return;
-    const lenis = (window as any).lenis; // défilement doux (absent si "moins de mouvement")
+    const lenis = (window as any).lenis; // absent si « moins de mouvement »
     const immediat = douceur === "instant";
     if (ordinateur.matches) {
       if (lenis) lenis.scrollTo(cible.offsetLeft, { immediate: immediat });
@@ -216,7 +208,7 @@ const personne = {
   });
   if (location.hash) window.addEventListener("load", () => allerA(location.hash.slice(1), "instant"));
 
-  // --- 2. Texte « À propos » qui s'allume mot par mot ---
+  // --- « À propos » : mots allumés au scroll ---
   const texte = document.querySelector<HTMLElement>("[data-surligne]")!;
   const mots = texte.textContent!.trim().split(/\s+/);
   texte.innerHTML = mots.map((mot) => `<span>${mot}</span>`).join(" ");
@@ -224,7 +216,7 @@ const personne = {
 
   function allumerMots() {
     const r = texte.getBoundingClientRect();
-    // 0 quand le texte arrive aux 3/4 de l'écran, 1 quand sa fin y arrive
+    // 0 : début du texte aux 3/4 de l'écran, 1 : fin du texte
     const progression = ordinateur.matches ? (innerWidth * 0.75 - r.left) / r.width : (innerHeight * 0.75 - r.top) / r.height;
     const nombre = Math.round(Math.min(1, Math.max(0, progression)) * mots.length);
     spans.forEach((span, i) => span.classList.toggle("allume", i < nombre));
@@ -232,7 +224,7 @@ const personne = {
   window.addEventListener("scroll", allumerMots, { passive: true });
   allumerMots();
 
-  // --- 3. Contact : couleurs dans un ordre aléatoire, changement lent toutes les 12 s ---
+  // --- Contact : fond qui change toutes les 12 s ---
   const couleurs = ["bg-c1", "bg-c2", "bg-c3", "bg-c4", "bg-c5", "bg-c6"].sort(() => Math.random() - 0.5);
   const contact = document.querySelector<HTMLElement>("#contact")!;
   const pastilles = document.querySelector<HTMLElement>("#pastilles")!;
@@ -258,7 +250,7 @@ const personne = {
     setInterval(() => choisirCouleur((actuelle + 1) % couleurs.length), 12000);
   }
 
-  // --- 4. Formulaire : prépare un e-mail propre dans la messagerie du visiteur ---
+  // --- Formulaire → mailto ---
   const formulaire = document.querySelector<HTMLFormElement>("#formulaire")!;
   formulaire.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -268,7 +260,7 @@ const personne = {
     location.href = `mailto:contact@adamgosmat.com?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
   });
 
-  // --- 5. Autres travaux : popup d'aperçu qui suit la souris au survol (souris fine uniquement) ---
+  // --- Aperçu des travaux au survol (souris fine) ---
   const listeTravaux = document.querySelector<HTMLElement>("#liste-travaux");
   const apercu = document.querySelector<HTMLElement>("#apercu-travail");
   const apercuImg = apercu?.querySelector("img");
@@ -283,9 +275,7 @@ const personne = {
     let visible = false;
     let boucleActive = false;
 
-    // Une seule écriture de position par frame (au lieu d'une par mousemove), et la position
-    // "rattrape" doucement la souris plutôt que de lui téléporter dessus : ça lisse le suivi
-    // et ça retire tout le travail de style qui n'a pas besoin d'être fait entre deux frames.
+    // Une écriture par frame, avec rattrapage progressif de la souris
     function boucle() {
       posX += (cibleX - posX) * 0.25;
       posY += (cibleY - posY) * 0.25;
@@ -297,6 +287,7 @@ const personne = {
       }
     }
 
+    // Relance la boucle si elle est arrêtée
     function demarrerBoucle() {
       if (!boucleActive) {
         boucleActive = true;
@@ -304,12 +295,9 @@ const personne = {
       }
     }
 
-    // mouseleave est posé sur la LISTE entière, pas sur chaque <li> : passer d'une ligne à la
-    // suivante ne doit pas déclencher de sortie — sinon chaque changement de ligne relançait un
-    // fondu de sortie aussitôt annulé par le fondu d'entrée suivant, ce qui saccadait tout
-    // (particulièrement visible sur WebKit, qui gère mal une transition CSS interrompue en boucle).
+    // Sur la liste, pas sur chaque <li> : évite un fondu de sortie à chaque changement de ligne
     listeTravaux.addEventListener("mouseleave", () => {
-      clearTimeout(chargeMinuteur); // la souris est repartie avant la fin du délai : on annule le chargement prévu
+      clearTimeout(chargeMinuteur);
       visible = false;
       apercu.classList.add("opacity-0", "scale-90");
       masquageMinuteur = setTimeout(() => apercu.classList.add("hidden"), 150);
@@ -317,20 +305,17 @@ const personne = {
 
     listeTravaux.querySelectorAll<HTMLElement>("li[data-apercu]").forEach((ligne) => {
       ligne.addEventListener("mouseenter", (e) => {
-        clearTimeout(masquageMinuteur); // annule un masquage programmé par la ligne précédente (ou la liste) qui précède
+        clearTimeout(masquageMinuteur);
         cibleX = e.clientX + 24;
         cibleY = e.clientY - 96;
         demarrerBoucle();
 
-        // On attend un court instant avant de charger l'image de CETTE ligne : en descendant
-        // vite dans la liste, chaque survol est annulé par le suivant avant d'avoir eu le temps
-        // de charger quoi que ce soit — on ne déclenche donc plus rien tant que la souris ne
-        // s'arrête pas un minimum sur une ligne.
+        // Délai : pas de chargement si la souris ne fait que passer
         clearTimeout(chargeMinuteur);
         chargeMinuteur = setTimeout(() => {
           apercuImg.src = ligne.dataset.apercu!;
           if (!visible) {
-            // Première apparition : pas de trajet à rattraper, on part direct de la souris.
+            // Première apparition : pas de rattrapage
             posX = cibleX;
             posY = cibleY;
             apercu.style.translate = `${posX}px ${posY}px`;

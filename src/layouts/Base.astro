@@ -8,13 +8,12 @@ interface Props {
   titre: string;
   description: string;
   classeBody?: string;
-  // Pied de page (mentions légales, confidentialité…). Désactivé sur l'accueil, qui l'intègre à sa section contact.
+  // Faux sur l'accueil (pied intégré au contact)
   pied?: boolean;
 }
 
 const { titre, description, classeBody = "", pied = true } = Astro.props;
 const canonique = new URL(Astro.url.pathname, Astro.site);
-// Image affichée quand on partage le lien (LinkedIn, messageries…)
 const imagePartage = new URL("/og.png", Astro.site);
 ---
 
@@ -40,11 +39,10 @@ const imagePartage = new URL("/og.png", Astro.site);
     <link rel="sitemap" href="/sitemap.xml" />
     <slot name="head" />
 
-    <!-- Lenis (défilement doux), copié dans public/vendor pour ne pas toucher à node_modules -->
+    <!-- Lenis, copié dans public/vendor (pas de node_modules) -->
     <script is:inline defer src="/vendor/lenis.min.js"></script>
 
-    <!-- Couleurs et police de titre tirées au hasard à chaque visite, avant l'affichage.
-         Le texte courant et les contours restent noirs. -->
+    <!-- Couleurs et police des titres tirées au hasard, avant affichage -->
     <script is:inline>
       (() => {
         const accents = ["#ffdb33", "#ff6b6b", "#6ec1ff", "#7ed6a0", "#b9a7ff", "#ff9f43"].sort(() => Math.random() - 0.5);
@@ -71,8 +69,14 @@ const imagePartage = new URL("/og.png", Astro.site);
         const appliquer = (police) => racine.setProperty("--font-titre", `"${police}", "Archivo", sans-serif`);
         appliquer(tirer());
 
-        // Une police différente par titre (tirées au sort, jamais deux fois la même tant qu'il en reste).
-        // On vérifie que chaque police s'est bien chargée, sinon on en essaie une autre pour ce titre-là.
+        // Corrections par police (interligne = multiplicateur du leading Tailwind)
+        // Husky Stash : ombre qui déborde sous la ligne. Audio Nugget : très plate
+        const reglages = {
+          "Husky Stash": { espacement: "0.03em", interligne: 1.12 },
+          "Audio Nugget": { interligne: 0.8 },
+        };
+
+        // Une police par titre, sans doublon ; repli si elle ne charge pas
         async function assignerPolices() {
           const pile = [...polices].sort(() => Math.random() - 0.5);
           const prochaine = () => (pile.length ? pile.shift() : tirer());
@@ -87,6 +91,12 @@ const imagePartage = new URL("/og.png", Astro.site);
               police = prochaine();
             }
             titre.style.fontFamily = `"${police}", "Archivo", sans-serif`;
+            const reglage = reglages[police];
+            if (reglage) {
+              const style = getComputedStyle(titre);
+              if (reglage.espacement) titre.style.letterSpacing = reglage.espacement;
+              if (reglage.interligne) titre.style.lineHeight = String((parseFloat(style.lineHeight) / parseFloat(style.fontSize)) * reglage.interligne);
+            }
           }
         }
 
@@ -111,9 +121,7 @@ const imagePartage = new URL("/og.png", Astro.site);
 </html>
 
 <script>
-  // Défilement doux (Lenis). Il lisse seulement la molette : le scroll vertical de la page reste le vrai
-  // window.scrollY, donc le défilement horizontal de l'accueil (qui recopie scrollY) continue de marcher.
-  // Désactivé si l'utilisateur demande moins de mouvement. Sur tactile, le scroll natif reste inchangé.
+  // Lenis lisse la molette mais garde window.scrollY (le scroll horizontal en dépend)
   const Lenis = (window as any).Lenis;
   if (Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     (window as any).lenis = new Lenis({ autoRaf: true, lerp: 0.1, wheelMultiplier: 1 });

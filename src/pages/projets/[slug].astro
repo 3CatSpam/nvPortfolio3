@@ -2,7 +2,6 @@
 import Base from "../../layouts/Base.astro";
 import { etudes, pagesProjet, sansAccents } from "../../data/projets";
 
-// Une page par projet (projets principaux + autres travaux), générée à partir de src/data/projets.ts
 export function getStaticPaths() {
   return pagesProjet.map((etude, index) => ({
     params: { slug: etude.slug },
@@ -13,7 +12,7 @@ export function getStaticPaths() {
 const { index } = Astro.props;
 const etude = pagesProjet[index];
 const suivante = pagesProjet[(index + 1) % pagesProjet.length];
-const estTravail = index >= etudes.length; // page venant de « Autres travaux »
+const estTravail = index >= etudes.length; // vient de « Autres travaux »
 
 const parties = [
   { titre: "Contexte", texte: etude.contexte },
@@ -23,7 +22,7 @@ const parties = [
   { titre: "Résultat", texte: etude.resultat },
 ];
 
-// Découpe un texte pour surligner les passages [entre crochets] encore à écrire
+// Isole les [brouillons] pour les surligner
 const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
 ---
 
@@ -32,7 +31,6 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
     <header class="flex min-h-20 flex-wrap items-center justify-between gap-4 py-4">
       <a href={estTravail ? "/#travaux" : "/#etudes"} class="grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label={estTravail ? "Retour aux autres travaux" : "Retour aux projets"}>AG</a>
 
-      <!-- Menu pour choisir un projet -->
       <nav aria-label="Choisir un projet">
         <ul class="flex flex-wrap items-center gap-3">
           {
@@ -49,14 +47,13 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
     </header>
 
     <main id="contenu">
-      <p class={`etiquette mt-6 ${etude.couleur}`}>Projet {String(index + 1).padStart(2, "0")} / {String(pagesProjet.length).padStart(2, "0")}</p>
-      <h1 class="my-6 font-titre text-[clamp(3rem,9vw,9rem)] leading-[0.9] text-balance uppercase">{sansAccents(etude.titre)}</h1>
+      <h1 class="mt-6 mb-6 font-titre text-[clamp(3rem,9vw,9rem)] leading-[0.9] text-balance uppercase">{sansAccents(etude.titre)}</h1>
 
       <dl class="mb-10 grid grid-cols-2 gap-3 md:grid-cols-4">
         <div class="boite bg-white p-3"><dt class="font-mono text-xs uppercase">Catégorie</dt><dd class="font-bold">{etude.categorie}</dd></div>
         <div class="boite bg-c3 p-3"><dt class="font-mono text-xs uppercase">Outils</dt><dd class="font-bold">{etude.tags.join(", ")}</dd></div>
         <div class="boite bg-c4 p-3"><dt class="font-mono text-xs uppercase">Année</dt><dd class="font-bold">{etude.annee}</dd></div>
-        <div class="boite bg-c1 p-3"><dt class="font-mono text-xs uppercase">Cadre</dt><dd class="brouillon font-bold">[Perso, cours ou client ?]</dd></div>
+        <div class="boite bg-c1 p-3"><dt class="font-mono text-xs uppercase">Cadre</dt><dd class="font-bold">{etude.cadre}</dd></div>
       </dl>
 
       <div class="boite relative h-[min(70vh,640px)] overflow-hidden bg-c3">
@@ -70,14 +67,21 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
         {etude.modele && <span class="etiquette absolute bottom-4 left-4 bg-white">Glisser pour tourner</span>}
       </div>
 
-      <div class="mt-20 grid gap-6">
+      <div class="mt-20 grid gap-4">
         {
           parties.map((partie) => (
-            <section class="boite grid items-center gap-4 bg-white p-6 md:grid-cols-[1fr_2.2fr]">
-              <h2 class="text-2xl font-black uppercase">{partie.titre}</h2>
-              <p class="max-w-[62ch] text-lg">
-                {morceaux(partie.texte).map((m) => (m.startsWith("[") ? <mark class="brouillon">{m}</mark> : m))}
-              </p>
+            <section tabindex="0" role="button" aria-expanded="false" class="partie boite group cursor-pointer bg-white p-6 outline-none transition hover:-translate-y-0.5 focus-visible:-translate-y-0.5">
+              <h2 class="text-2xl font-black uppercase md:text-4xl">
+                {partie.titre}
+              </h2>
+              <!-- 0fr → 1fr anime une hauteur auto -->
+              <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none group-aria-expanded:grid-rows-[1fr]">
+                <div class="overflow-hidden">
+                  <p class="max-w-[62ch] pt-4 text-lg">
+                    {morceaux(partie.texte).map((m) => (m.startsWith("[") ? <mark class="brouillon">{m}</mark> : m))}
+                  </p>
+                </div>
+              </div>
             </section>
           ))
         }
@@ -92,5 +96,32 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
 </Base>
 
 <script>
+  // Ouverte = survolée ou épinglée (clic). Un 2e clic dépingle
+  document.querySelectorAll<HTMLElement>(".partie").forEach((partie) => {
+    let survol = false;
+    let epingle = false;
+    const maj = () => partie.setAttribute("aria-expanded", String(survol || epingle));
+    const basculer = () => {
+      epingle = !epingle;
+      maj();
+    };
+    partie.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return; // tactile : le clic gère
+      survol = true;
+      maj();
+    });
+    partie.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      survol = false;
+      maj();
+    });
+    partie.addEventListener("click", basculer);
+    partie.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        basculer();
+      }
+    });
+  });
   if (document.querySelector("model-viewer")) import("@google/model-viewer");
 </script>

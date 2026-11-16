@@ -1,5 +1,4 @@
-<!-- Curseur carré qui s'oriente dans le sens du mouvement de la souris.
-     C'est un <div> (pas un <svg>) car showPopover()/:popover-open n'existent que sur HTMLElement. -->
+<!-- div (pas svg) : showPopover() n'existe que sur HTMLElement -->
 <div id="curseur" popover="manual" class="pointer-events-none fixed top-0 left-0 z-50 hidden size-7" aria-hidden="true">
   <svg viewBox="0 0 28 28" class="size-full">
     <rect x="1.5" y="1.5" width="25" height="25" rx="4" fill="#111" stroke-width="1.5" class="stroke-fond"></rect>
@@ -23,8 +22,7 @@
   let dernierY = 0;
   let angle = 0;
 
-  // Les popovers (menu, fenêtre secrète) vivent dans une couche à part (le "top layer"), toujours au-dessus
-  // du z-index normal. Le curseur doit donc lui aussi être un popover pour rester visible par-dessus.
+  // Popover = top layer, sinon le curseur passe sous le menu
   function auPremierPlan() {
     if (curseur.matches(":popover-open")) curseur.hidePopover();
     curseur.showPopover();
@@ -37,10 +35,10 @@
       const dx = e.clientX - dernierX;
       const dy = e.clientY - dernierY;
 
-      // On ne change l'angle que si la souris a vraiment bougé (évite les tremblements)
+      // Seuil anti-tremblement
       if (dx * dx + dy * dy > 9) {
         const cible = (Math.atan2(dy, dx) * 180) / Math.PI;
-        const ecart = ((((cible - angle) % 360) + 540) % 360) - 180; // chemin le plus court
+        const ecart = ((((cible - angle) % 360) + 540) % 360) - 180; // plus court chemin
         angle += ecart * 0.35;
         dernierX = e.clientX;
         dernierY = e.clientY;
@@ -53,7 +51,16 @@
 
     document.addEventListener("mouseleave", () => curseur.classList.add("hidden"));
 
-    // Repasse le curseur devant chaque fois qu'un autre popover s'ouvre.
+    // Le shadow DOM de model-viewer ignore le CSS global (cursor: grab)
+    customElements.whenDefined("model-viewer").then(() => {
+      document.querySelectorAll("model-viewer").forEach((mv) => {
+        const style = document.createElement("style");
+        style.textContent = "*, *:active { cursor: none !important; }";
+        mv.shadowRoot?.append(style);
+      });
+    });
+
+    // Repasse devant chaque nouveau popover
     ["menu", "lilas-fenetre"].forEach((id) => {
       document.getElementById(id)?.addEventListener("toggle", (e) => {
         if ((e as ToggleEvent).newState === "open") auPremierPlan();
