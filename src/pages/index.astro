@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import Footer from "../components/Footer.astro";
+import Contact from "../components/Contact.astro";
 import Pastille from "../components/Pastille.astro";
 import CarteEtude from "../components/CarteEtude.astro";
 import { etudes, travaux, sansAccents } from "../data/projets";
@@ -118,45 +118,7 @@ const personne = {
       </div>
     </section>
 
-    <!-- Un écran exactement (100dvh) -->
-    <section id="contact" class="flex min-h-dvh flex-col justify-between gap-[clamp(0.75rem,2.5vh,1.5rem)] md:h-dvh md:min-h-0 md:overflow-hidden border-encre px-5 pt-6 pb-24 transition-colors duration-[1500ms] md:w-screen md:shrink-0 md:px-10">
-      <div class="flex items-center justify-between gap-3">
-        <span class="etiquette bg-white">Contact</span>
-        <div id="pastilles" class="flex items-center gap-2.5" role="group" aria-label="Couleur du fond"></div>
-      </div>
-
-      <h2 class="font-titre text-[clamp(2.5rem,min(7.5vw,12vh),8rem)] leading-[0.9] uppercase">On fabrique un truc ?</h2>
-
-      <!-- mailto : rien n'est stocké côté site -->
-      <form id="formulaire" action="mailto:contact@adamgosmat.com" method="post" enctype="text/plain" class="boite grid max-w-4xl gap-3 bg-white p-5 md:grid-cols-2">
-        <label class="flex flex-col gap-1.5 font-mono text-xs uppercase">
-          Nom
-          <input name="nom" autocomplete="name" required class="rounded-lg border-3 border-encre bg-fond px-3 py-2.5 font-texte text-base normal-case" />
-        </label>
-        <label class="flex flex-col gap-1.5 font-mono text-xs uppercase">
-          E-mail
-          <input name="email" type="email" autocomplete="email" required class="rounded-lg border-3 border-encre bg-fond px-3 py-2.5 font-texte text-base normal-case" />
-        </label>
-        <label class="flex flex-col gap-1.5 font-mono text-xs uppercase md:col-span-2">
-          Message
-          <textarea name="message" rows="2" required class="rounded-lg border-3 border-encre bg-fond px-3 py-2.5 font-texte text-base normal-case"></textarea>
-        </label>
-        <p class="text-sm md:col-span-2">
-          En envoyant, ta messagerie s'ouvre avec le message prêt. Détails dans la <a href="/confidentialite/" class="underline">politique de confidentialité</a>.
-        </p>
-        <button type="submit" class="bouton justify-self-start bg-c1">Envoyer →</button>
-      </form>
-
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <ul class="flex flex-wrap items-center gap-3">
-          <li><a href="mailto:contact@adamgosmat.com" class="etiquette bg-white normal-case">contact@adamgosmat.com</a></li>
-          <li><a href="https://www.linkedin.com/in/adam-gosmat-98a2902a7/" class="etiquette bg-white">LinkedIn</a></li>
-          <li><a href="https://github.com/3CatSpam" class="etiquette bg-white">GitHub</a></li>
-          <li><a href="/CV_GOSMAT_Adam.pdf" class="etiquette bg-white">CV (PDF)</a></li>
-        </ul>
-        <Footer />
-      </div>
-    </section>
+    <Contact horizontal />
   </main>
   </div>
 </Base>
@@ -223,42 +185,6 @@ const personne = {
   }
   window.addEventListener("scroll", allumerMots, { passive: true });
   allumerMots();
-
-  // --- Contact : fond qui change toutes les 12 s ---
-  const couleurs = ["bg-c1", "bg-c2", "bg-c3", "bg-c4", "bg-c5", "bg-c6"].sort(() => Math.random() - 0.5);
-  const contact = document.querySelector<HTMLElement>("#contact")!;
-  const pastilles = document.querySelector<HTMLElement>("#pastilles")!;
-  let actuelle = 0;
-
-  function choisirCouleur(i: number) {
-    contact.classList.remove(couleurs[actuelle]);
-    actuelle = i;
-    contact.classList.add(couleurs[actuelle]);
-    pastilles.querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
-  }
-
-  couleurs.forEach((couleur, i) => {
-    const bouton = document.createElement("button");
-    bouton.className = `size-8 rounded-md border-2 border-encre shadow-dur-sm aria-pressed:translate-0.5 aria-pressed:shadow-none ${couleur}`;
-    bouton.setAttribute("aria-label", `Fond ${couleur.replace("bg-", "")}`);
-    bouton.addEventListener("click", () => choisirCouleur(i));
-    pastilles.append(bouton);
-  });
-
-  choisirCouleur(0);
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    setInterval(() => choisirCouleur((actuelle + 1) % couleurs.length), 12000);
-  }
-
-  // --- Formulaire → mailto ---
-  const formulaire = document.querySelector<HTMLFormElement>("#formulaire")!;
-  formulaire.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const donnees = new FormData(formulaire);
-    const sujet = `Portfolio · message de ${donnees.get("nom")}`;
-    const corps = `${donnees.get("message")}\n\n${donnees.get("nom")} · ${donnees.get("email")}`;
-    location.href = `mailto:contact@adamgosmat.com?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
-  });
 
   // --- Aperçu des travaux au survol (souris fine) ---
   const listeTravaux = document.querySelector<HTMLElement>("#liste-travaux");

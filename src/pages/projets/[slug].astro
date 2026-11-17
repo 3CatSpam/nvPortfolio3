@@ -63,18 +63,17 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
               <ul class="carrousel-piste flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" tabindex="0" aria-label="Captures, défiler horizontalement">
                 {etude.galerie.map((vue, i) => (
                   <li class="w-full shrink-0 snap-center" aria-roledescription="diapositive" aria-label={`${i + 1} sur ${etude.galerie!.length}`}>
-                    <img src={vue.src} alt={vue.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" class="aspect-[1382/868] w-full object-cover" />
+                    <img src={vue.src} alt={vue.alt} loading="eager" class="aspect-[1382/868] w-full object-cover" />
                   </li>
                 ))}
               </ul>
               <button type="button" class="carrousel-prec etiquette absolute top-1/2 left-3 -translate-y-1/2 bg-white" aria-label="Capture précédente">←</button>
               <button type="button" class="carrousel-suiv etiquette absolute top-1/2 right-3 -translate-y-1/2 bg-white" aria-label="Capture suivante">→</button>
             </div>
-            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <p class="carrousel-legende font-mono text-sm" aria-live="polite">{etude.galerie[0].legende}</p>
+            <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
               <div class="flex gap-2" role="group" aria-label="Choisir une capture">
                 {etude.galerie.map((vue, i) => (
-                  <button type="button" class="carrousel-point size-4 rounded-full border-3 border-encre bg-white aria-[current=true]:bg-encre" aria-label={`Capture ${i + 1}`} aria-current={i === 0 ? "true" : "false"} data-legende={vue.legende} />
+                  <button type="button" class="carrousel-point size-4 rounded-full border-3 border-encre bg-white aria-[current=true]:bg-encre" aria-label={`Capture ${i + 1}`} aria-current={i === 0 ? "true" : "false"} />
                 ))}
               </div>
             </div>
@@ -153,22 +152,24 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
   document.querySelectorAll<HTMLElement>(".carrousel").forEach((car) => {
     const piste = car.querySelector<HTMLElement>(".carrousel-piste")!;
     const points = [...car.querySelectorAll<HTMLElement>(".carrousel-point")];
-    const legende = car.querySelector<HTMLElement>(".carrousel-legende")!;
     let actuel = 0;
     let fin = 0; // pendant l'animation d'un clic, le défilement ne réécrit pas l'index
-    const aller = (i: number) => {
+    const images = [...piste.querySelectorAll<HTMLImageElement>("img")];
+    images.forEach((img) => img.decode().catch(() => {})); // décodées d'avance : pas de fond visible
+    const aller = async (i: number) => {
       const n = points.length;
       const cible = (i + n) % n;
-      fin = Date.now() + 700;
+      const boucle = Math.abs(cible - actuel) === n - 1 && n > 2; // dernier ↔ premier : saut direct, sans balayage
       actuel = cible; // mémorisé tout de suite : deux clics rapides avancent de deux
-      piste.scrollTo({ left: cible * piste.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      fin = Date.now() + 700;
+      await images[cible].decode().catch(() => {}); // image prête avant d'arriver
+      piste.scrollTo({ left: cible * piste.clientWidth, behavior: boucle || matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     };
     const courant = () => actuel;
     piste.addEventListener("scroll", () => {
       const i = Math.min(points.length - 1, Math.max(0, Math.round(piste.scrollLeft / piste.clientWidth)));
       if (Date.now() > fin) actuel = i;
       points.forEach((p, k) => p.setAttribute("aria-current", String(k === i)));
-      legende.textContent = points[i].dataset.legende ?? "";
     }, { passive: true });
     car.querySelector(".carrousel-prec")!.addEventListener("click", () => aller(courant() - 1));
     car.querySelector(".carrousel-suiv")!.addEventListener("click", () => aller(courant() + 1));

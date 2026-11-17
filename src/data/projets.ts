@@ -13,6 +13,7 @@ export type Etude = {
   tags: string[];
   modele?: string;
   image?: string;
+  images?: string[]; // aperçu accueil tiré au hasard
   galerie?: Vue[];
   contexte: string;
   role: string;
@@ -48,29 +49,39 @@ export const etudes: Etude[] = [
     couleur: "bg-c1",
     tags: ["Swift", "AppKit", "macOS"],
     image: "/previews/demicolon.webp",
-    contexte: "Pages me cassait les pieds : il plantait tout le temps, gérait très mal les images et la mise en page était foutue dès que je déplaçais un truc. Je voulais un éditeur simple, rapide, sans Electron ni navigateur embarqué, et que je maîtrise. L'idée du nom et de la fonction vient d'un reel Instagram où quelqu'un utilisait un demicolon dans son livre : une tangente glissée au milieu d'une phrase, ;;comme ça;;, sans casser le fil. J'ai cherché ce que c'était, j'ai vu que c'était à la fois pratique et disponible nulle part, alors j'ai décidé de le faire.",
-    role: "Projet personnel, conçu et développé seul : idée, design de l'interface et du logo, code, tests et format de fichier.",
-    processus: "J'ai d'abord fait un prototype en web, puis je l'ai abandonné pour repartir en natif, plus léger. Je l'utilise tous les jours pour prendre des notes, ce qui me sert de test : dès qu'un détail m'agace, je le corrige. J'ai ajouté petit à petit les tangentes, une colonne d'images (Marginalia), des thèmes, le plan du document et la frappe rapide en Markdown.",
+    contexte: "Pages, le logiciel de traitement de texte que j'utilisais, me posait problème : il plantait tout le temps et gérait très mal les images et la mise en page. Je voulais un éditeur simple, rapide, sans Electron ni navigateur complet, et que je maîtrise, qui n'a pas ce genre de problèmes. L'idée du nom et de la fonction principale, le 'demicolon', vient d'une vidéo Instagram où quelqu'un utilisait un demicolon dans son livre : une tangente glissée au milieu d'une phrase. Curieux, je me suis renseigné, et j'ai découvert que c'était une blague, quelque chose qui n'existe pas. Le trouvant pratique, j'ai décidé de le rendre réel.",
+    role: "Projet personnel, conçu et développé seul : idée, design de l'interface et du logo.",
+    processus: "J'ai d'abord fait un prototype en web, puis je l'ai abandonné pour repartir en natif (Swift), plus léger. Je l'utilise tous les jours pour prendre des notes, ce qui me sert de test : dès qu'un détail m'agace, je le corrige. J'ai ajouté, en plus des tangentes (demicolons), une colonne d'images (Marginalia) permettant de mieux gérer ses notes, des thèmes, l'insertion de code et de LaTeX, etc.",
     techniques: "Swift et AppKit (TextKit), sans aucune dépendance externe. Un format de fichier à moi (.dmcl), compact et capable d'embarquer les images, avec chiffrement facultatif. Exports en PDF, DOCX, HTML et Markdown, et une batterie de plus de 400 tests automatisés.",
     resultat: "Une vraie app que j'utilise au quotidien, qui s'ouvre vite et que je peux faire évoluer comme je veux. J'y ai appris qu'un outil perso demande autant de rigueur qu'un produit : ne jamais perdre une note passe avant toute nouveauté.",
   },
   {
-    slug: "vassil",
-    titre: "Vassil.fr",
-    categorie: "Web · 3D",
-    annee: "2025",
-    cadre: "Stage",
-    resume: "Refonte du site d'un sculpteur animalier, avec intégration 3D légère.",
-    couleur: "bg-c4",
-    tags: ["Figma", "Blender", "Web"],
-    image: "/previews/vassil.webp",
-    contexte: "Vassil est un sculpteur animalier. Son site existant ne montrait pas bien ses pièces, et il voulait une vitrine plus moderne, qui fasse sentir le volume de son travail.",
-    role: "Refonte réalisée pour un client : maquettes dans Figma, direction visuelle, modélisation 3D légère et intégration web. Je me suis occupé du design et de la 3D.",
-    processus: "J'ai d'abord listé ce qui comptait pour lui : montrer les sculptures, rassurer les visiteurs et faciliter la prise de contact. Puis j'ai maquetté la structure, testé plusieurs mises en page et validé avec lui une version avant l'intégration.",
-    techniques: "Maquettes Figma, modèles Blender optimisés pour le web, images compressées et accessibilité soignée (contrastes, navigation clavier). Le défi était de garder l'effet 3D sans alourdir les pages.",
-    resultat: "Un site plus lisible qui met ses sculptures en valeur, validé par le client. J'y ai appris à arbitrer entre ce que je trouve beau et ce que le client et le web permettent.",
-  },
-];
+    slug: "3cs-browser",
+    titre: "3CS Browser",
+    categorie: "Logiciel · Swift",
+    annee: "2026",
+    cadre: "Projet perso",
+    resume: "Un navigateur MacOS à mon image, complet, rapide, customisable.",
+    couleur: "bg-c3",
+    tags: ["Swift", "SwiftUI", "WebKit"],
+    image: "/previews/3cs/app-matrixrain.webp",
+    images: ["/previews/3cs/app-navigation.webp", "/previews/3cs/app-matrixrain.webp", "/previews/3cs/app-topomap-app.webp", "/previews/3cs/app-apparence.webp", "/previews/3cs/app-brutaliste.webp", "/previews/3cs/app-navbar-transparente.webp"],
+    galerie: [
+    { src: "/previews/3cs/app-navigation.webp", alt: "3CS Browser affichant une page Wikipédia, onglets verticaux à gauche", legende: "Navigation : onglets verticaux, barre d'outils personnalisable" },
+    { src: "/previews/3cs/app-navbar-minimale.webp", alt: "3CS Browser avec une barre de navigation réduite à l'essentiel : précédent, suivant, adresse et thème", legende: "Navbar épurée : on ne garde que les boutons dont on a besoin" },
+    { src: "/previews/3cs/app-navbar-transparente.webp", alt: "3CS Browser avec une navbar transparente posée sur une vidéo en plein cadre, sidebar à gauche", legende: "Navbar transparente : le contenu passe sous la barre" },
+    { src: "/previews/3cs/app-apparence.webp", alt: "Réglages d'apparence de 3CS Browser sur fond flowfield", legende: "Apparence : économiseur d'écran, thème sombre, effet verre liquide" },
+    { src: "/previews/3cs/app-outils.webp", alt: "Réglages des outils intégrés de 3CS Browser", legende: "Outils intégrés : convertisseur, calculatrice, crawler de liens" },
+    { src: "/previews/3cs/app-matrixrain.webp", alt: "Page d'accueil de 3CS Browser avec l'économiseur matrixrain", legende: "Visuel génératif : matrixrain" },
+    { src: "/previews/3cs/app-starfield-app.webp", alt: "Page d'accueil de 3CS Browser avec l'économiseur starfield", legende: "Visuel génératif : starfield" },
+    { src: "/previews/3cs/app-topomap-app.webp", alt: "Page d'accueil de 3CS Browser avec l'économiseur topographique", legende: "Visuel fluide, inspiré de plans topographiques" },
+    ],
+    contexte: "J'utilisais le navigateur Zen, mais certains détails me gênaient ou ne fonctionnaient pas comme je le souhaitais. En décembre 2025, sur un coup de tête, j'ai décidé de concevoir mon propre navigateur, plus adapté à mon usage. Une autre idée derrière ce navigateur fut une curiosité pour la capacité de développement des intelligences artificielles. J'ai ainsi pu constater leur evolution au cours de cette dernière année.",
+    role: "Conception, idées et design de l'application.",
+    processus: "Le développement a débuté le 14 Décembre 2025 et est toujours en cours. J'utilise le navigateur au quotidien, ce qui me permet de tester en conditions réelles l'application et d'ajuster les problèmes, que se soient bugs ou fonctionalités manquantes.",
+    techniques: "Swift, SwiftUI et AppKit autour de WebKit, sans dépendance externe : un seul petit module en C pour vectoriser des images. Gestionnaire de mots de passe sur le Trousseau, bloqueur de pubs pré-installé, support des extensions Chrome, lecteur PDF, convertisseur de fichiers, traducteur, liseuse, widgets, etc.. Environ 180 fichiers Swift et plus de 700 commits, pour un total de 105 487 lignes de swift, 15 172 lignes de JavaScript, 9001 lignes d'HTML et 3576 lignes de CSS (entre autres).",
+    resultat: "Un navigateur que j'utilise vraiment, à ma façon. Prochaine étape : le rendre plus stable et le partager.",
+  },];
 
 export type Travail = {
   titre: string;
@@ -83,6 +94,7 @@ export type Travail = {
   lien?: string; // externe, sinon page interne
   slug?: string;
   description?: string;
+  contexte?: string;
   tags?: string[];
   galerie?: Vue[];
   role?: string;
@@ -97,17 +109,7 @@ export const travaux: Travail[] = [
   { titre: "Eishi", categorie: "Branding · Web", annee: "2025", cadre: "Université", image: "/previews/eishi.webp", imageMini: "/previews/mini/eishi.webp", couleur: "hover:bg-c2", lien: "http://eishi.free.nf" },
   { titre: "Vision", categorie: "Logo", annee: "2025", cadre: "Université", image: "/previews/eye.webp", imageMini: "/previews/mini/eye.webp", couleur: "hover:bg-c4", slug: "vision", description: "Création d'un logo autour du motif de l'œil, simple et mémorable." , role: "Conception de l'identité du logo, de la recherche à la déclinaison, seul.", processus: "Recherche autour de la forme de l'œil, tests de plusieurs constructions géométriques, puis simplification jusqu'à un signe lisible en petit comme en grand.", techniques: "Illustrator, construction sur grille, déclinaisons en couleur et en noir et blanc.", resultat: "Un logo net qui fonctionne sur fond clair ou sombre. Il reste à le tester sur un support réel." },
   { titre: "Le Monde de l'Urbex", categorie: "Webdocumentaire", annee: "2025", cadre: "Université", image: "/images/urbex.webp", imageMini: "/images/mini/urbex.webp", couleur: "hover:bg-c6", slug: "urbex", description: "Un webdocumentaire sur l'exploration urbaine : raconter des lieux abandonnés par l'image et le son, sur une page web." , role: "Projet d'équipe, avec les crédits en bas de page. Je me suis occupé de la direction visuelle et du design de l'interface.", processus: "Choix de l'angle éditorial, découpage en chapitres, maquettes de la navigation, puis intégration et ajustements avec l'équipe.", techniques: "Figma pour les maquettes, intégration web, images optimisées pour garder le site fluide malgré des visuels lourds.", resultat: "Un récit qui se parcourt comme un parcours dans un lieu. La coordination d'équipe a été le plus gros apprentissage." },
-  { titre: "3CS Browser", categorie: "Logiciel · Swift", annee: "2026", cadre: "Projet perso", image: "/previews/3cs/starfield.webp", imageMini: "/previews/3cs/mini_starfield.webp", couleur: "hover:bg-c3", slug: "3cs-browser", tags: ["Swift", "SwiftUI", "WebKit"], galerie: [
-    { src: "/previews/3cs/app-navigation.webp", alt: "3CS Browser affichant une page Wikipédia, onglets verticaux à gauche", legende: "Navigation : onglets verticaux, barre d'outils personnalisable" },
-    { src: "/previews/3cs/app-brutaliste.webp", alt: "3CS Browser en thème brutaliste : sidebar à droite avec des dossiers d'onglets, barre de navigation en bas", legende: "Autre profil : thème brutaliste, sidebar à droite, navbar en bas" },
-    { src: "/previews/3cs/app-navbar-minimale.webp", alt: "3CS Browser avec une barre de navigation réduite à l'essentiel : précédent, suivant, adresse et thème", legende: "Navbar épurée : on ne garde que les boutons dont on a besoin" },
-    { src: "/previews/3cs/app-navbar-transparente.webp", alt: "3CS Browser avec une navbar transparente posée sur une vidéo en plein cadre, sidebar à gauche", legende: "Navbar transparente : le contenu passe sous la barre" },
-    { src: "/previews/3cs/app-apparence.webp", alt: "Réglages d'apparence de 3CS Browser sur fond flowfield", legende: "Apparence : économiseur d'écran, thème sombre, effet verre liquide" },
-    { src: "/previews/3cs/app-outils.webp", alt: "Réglages des outils intégrés de 3CS Browser", legende: "Outils intégrés : convertisseur, calculatrice, crawler de liens" },
-    { src: "/previews/3cs/app-matrixrain.webp", alt: "Page d'accueil de 3CS Browser avec l'économiseur matrixrain", legende: "Visuel génératif : matrixrain" },
-    { src: "/previews/3cs/app-starfield-app.webp", alt: "Page d'accueil de 3CS Browser avec l'économiseur starfield", legende: "Visuel génératif : starfield" },
-    { src: "/previews/3cs/app-topomap-app.webp", alt: "Page d'accueil de 3CS Browser avec l'économiseur topographique", legende: "Visuel génératif : topomap (appelé « Fluid » dans l'app)" },
-  ], description: "Mon propre navigateur web pour macOS, en Swift : onglets, bloqueur de pubs, Tor, outils intégrés et visuels génératifs (flowfield, matrixrain, starfield, topomap)." , role: "Idée, design et développement de l'application, seul.", processus: "J'utilisais Zen, mais certains détails me soûlaient ou ne marchaient pas. En décembre 2025, je me suis dit : pourquoi ne pas me faire mon propre navigateur ? Je l'ai commencé début janvier 2026 et je l'utilise au quotidien : dès qu'un détail m'agace, je le corrige ou j'ajoute la fonction qui me manque.", techniques: "Swift, SwiftUI et AppKit autour de WebKit, sans dépendance externe : un seul petit module en C pour vectoriser des images. Gestionnaire de mots de passe sur le Trousseau, bloqueur de pubs, extensions Chrome, lecteur PDF, convertisseur de fichiers, traducteur, Tor, visionneuse 3D, widgets et un serveur MCP local pour piloter le navigateur avec une IA. Environ 180 fichiers Swift et plus de 700 commits.", resultat: "Un navigateur que j'utilise vraiment, à ma façon. Prochaine étape : le rendre plus stable et le partager." },];
+  { titre: "Vassil.fr", categorie: "Web · 3D", annee: "2025", cadre: "Stage", image: "/previews/vassil.webp", imageMini: "/previews/mini/vassil.webp", couleur: "hover:bg-c4", slug: "vassil", tags: ["Figma", "Blender", "Web"], description: "Refonte du site d'un sculpteur animalier, avec intégration 3D légère.", contexte: "Vassil est un sculpteur animalier. Son site existant ne montrait pas bien ses pièces, et il voulait une vitrine plus moderne, qui fasse sentir le volume de son travail.", role: "Refonte réalisée pour un client : maquettes dans Figma, direction visuelle, modélisation 3D légère et intégration web. Je me suis occupé du design et de la 3D.", processus: "J'ai d'abord listé ce qui comptait pour lui : montrer les sculptures, rassurer les visiteurs et faciliter la prise de contact. Puis j'ai maquetté la structure, testé plusieurs mises en page et validé avec lui une version avant l'intégration.", techniques: "Maquettes Figma, modèles Blender optimisés pour le web, images compressées et accessibilité soignée (contrastes, navigation clavier). Le défi était de garder l'effet 3D sans alourdir les pages.", resultat: "Un site plus lisible qui met ses sculptures en valeur, validé par le client. J'y ai appris à arbitrer entre ce que je trouve beau et ce que le client et le web permettent." },];
 
 // Pages projet : études + travaux sans lien externe
 export const pagesProjet: Etude[] = [
@@ -125,7 +127,7 @@ export const pagesProjet: Etude[] = [
       tags: travail.tags ?? ["[Outils]"],
       image: travail.image,
       galerie: travail.galerie,
-      contexte: travail.description ?? "[Contexte.]",
+      contexte: travail.contexte ?? travail.description ?? "[Contexte.]",
       role: travail.role ?? "[Mon rôle exact.]",
       processus: travail.processus ?? "[Recherches, pistes, arbitrages.]",
       techniques: travail.techniques ?? "[Détails techniques.]",

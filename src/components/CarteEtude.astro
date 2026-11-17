@@ -29,7 +29,12 @@ const inclinaison = [-1.5, 1.2, -0.8][index] ?? 0;
         etude.modele ? (
           <model-viewer src={etude.modele} alt={`${etude.titre}, modèle 3D animé`} autoplay auto-rotate disable-zoom interaction-prompt="none" loading="lazy" class="absolute inset-0 size-full"></model-viewer>
         ) : (
-          <img src={etude.image} alt={etude.titre} loading="lazy" class="absolute inset-0 size-full object-cover" />
+          <>
+            <img src={etude.image} alt={etude.titre} loading="lazy" class="absolute inset-0 size-full object-cover" />
+            {etude.images && etude.images.length > 1 && (
+              <script is:inline set:html={`document.currentScript.previousElementSibling.src = ${JSON.stringify(etude.images)}[Math.floor(Math.random() * ${etude.images.length})];`} />
+            )}
+          </>
         )
       }
     </div>

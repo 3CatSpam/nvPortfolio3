@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import Menu from "../components/Menu.astro";
 import Curseur from "../components/Curseur.astro";
-import Footer from "../components/Footer.astro";
+import Contact from "../components/Contact.astro";
 
 interface Props {
   titre: string;
@@ -110,9 +110,9 @@ const imagePartage = new URL("/og.png", Astro.site);
     <slot />
     {
       pied && (
-        <footer class="mx-auto max-w-6xl px-5 pt-6 pb-32">
-          <Footer />
-        </footer>
+        <div class="mt-24">
+          <Contact />
+        </div>
       )
     }
     <Menu />
