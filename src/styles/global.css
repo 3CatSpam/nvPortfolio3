@@ -224,7 +224,8 @@ html.lenis body {
   }
 }
 
-#lilas-fenetre {
+#lilas-fenetre,
+#apercu-fenetre {
   inset: auto;
   left: 50%;
   top: 50%;
@@ -237,7 +238,17 @@ html.lenis body {
   max-width: calc(100vw - 2rem);
   max-height: calc(100vh - 2rem);
 }
-#lilas-fenetre::backdrop {
+#apercu-fenetre {
+  /* left: 50% limiterait sinon la largeur à la moitié de l'écran */
+  width: max-content;
+  max-width: none;
+  max-height: none;
+}
+#apercu-fenetre img {
+  max-width: none;
+}
+#lilas-fenetre::backdrop,
+#apercu-fenetre::backdrop {
   background: rgb(17 17 17 / 0.35);
 }
 

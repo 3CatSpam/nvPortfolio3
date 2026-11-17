@@ -61,7 +61,7 @@
     });
 
     // Repasse devant chaque nouveau popover
-    ["menu", "lilas-fenetre"].forEach((id) => {
+    ["menu", "lilas-fenetre", "apercu-fenetre"].forEach((id) => {
       document.getElementById(id)?.addEventListener("toggle", (e) => {
         if ((e as ToggleEvent).newState === "open") auPremierPlan();
       });

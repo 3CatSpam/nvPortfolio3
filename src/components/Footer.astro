@@ -8,15 +8,15 @@
 
 <div id="lilas-fenetre" popover>
   <div class="relative">
-    <button popovertarget="lilas-fenetre" popovertargetaction="hide" class="absolute -top-3 -right-3 z-10 grid size-10 place-items-center rounded-lg border-3 border-encre bg-c2 font-black shadow-dur-sm" aria-label="Fermer">✕</button>
     <div class="boite inline-flex flex-col overflow-hidden bg-c5">
-      <div class="relative flex h-12 shrink-0 items-center border-b-3 border-encre bg-fond px-3">
-        <div class="flex items-center gap-1.5" aria-hidden="true">
-          <i class="size-3.5 rounded-full border-2 border-encre bg-c2"></i>
-          <i class="size-3.5 rounded-full border-2 border-encre bg-c1"></i>
-          <i class="size-3.5 rounded-full border-2 border-encre bg-c4"></i>
+      <div class="grid h-12 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-3 border-b-3 border-encre bg-fond px-3">
+        <div class="group/feux flex items-center gap-2">
+          <button type="button" popovertarget="lilas-fenetre" popovertargetaction="hide" class="grid size-5 place-items-center rounded-full border-2 border-encre bg-c2" aria-label="Fermer"><span class="text-sm leading-none font-black opacity-0 group-hover/feux:opacity-100" aria-hidden="true">×</span></button>
+          <span class="grid size-5 place-items-center rounded-full border-2 border-encre bg-c1" aria-hidden="true"><span class="text-sm leading-none font-black opacity-0 group-hover/feux:opacity-100">−</span></span>
+          <span class="grid size-5 place-items-center rounded-full border-2 border-encre bg-c4" aria-hidden="true"><svg viewBox="0 0 10 10" class="size-2.5 opacity-0 group-hover/feux:opacity-100" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2 1 5l3 3M6 2l3 3-3 3"/></svg></span>
         </div>
-        <p class="absolute left-1/2 -translate-x-1/2 font-mono text-xs uppercase">Lilas</p>
+        <p class="min-w-0 truncate font-mono text-xs uppercase">Lilas</p>
+        <span aria-hidden="true"></span>
       </div>
       <img src="/images/lilas.png" alt="Lilas" class="max-h-[min(22rem,calc(100vh-6rem))] max-w-[min(16rem,calc(100vw-3rem))] block object-contain" />
     </div>

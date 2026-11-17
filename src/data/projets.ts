@@ -13,6 +13,7 @@ export type Etude = {
   tags: string[];
   modele?: string;
   image?: string;
+  iframe?: string; // site embarqué
   images?: string[]; // aperçu accueil tiré au hasard
   galerie?: Vue[];
   contexte: string;
@@ -44,23 +45,23 @@ export const etudes: Etude[] = [
     titre: "Demicolon",
     categorie: "Logiciel · Swift",
     annee: "2026",
-    cadre: "Projet perso",
+    cadre: "Projet personnel",
     resume: "Mon propre éditeur de notes pour macOS, pensé pour remplacer Pages : léger, natif et à mon image.",
     couleur: "bg-c1",
     tags: ["Swift", "AppKit", "macOS"],
     image: "/previews/demicolon.webp",
     contexte: "Pages, le logiciel de traitement de texte que j'utilisais, me posait problème : il plantait tout le temps et gérait très mal les images et la mise en page. Je voulais un éditeur simple, rapide, sans Electron ni navigateur complet, et que je maîtrise, qui n'a pas ce genre de problèmes. L'idée du nom et de la fonction principale, le 'demicolon', vient d'une vidéo Instagram où quelqu'un utilisait un demicolon dans son livre : une tangente glissée au milieu d'une phrase. Curieux, je me suis renseigné, et j'ai découvert que c'était une blague, quelque chose qui n'existe pas. Le trouvant pratique, j'ai décidé de le rendre réel.",
-    role: "Projet personnel, conçu et développé seul : idée, design de l'interface et du logo.",
+    role: "Projet personnel, conçu et développé seul : idées, design de l'interface et du logo.",
     processus: "J'ai d'abord fait un prototype en web, puis je l'ai abandonné pour repartir en natif (Swift), plus léger. Je l'utilise tous les jours pour prendre des notes, ce qui me sert de test : dès qu'un détail m'agace, je le corrige. J'ai ajouté, en plus des tangentes (demicolons), une colonne d'images (Marginalia) permettant de mieux gérer ses notes, des thèmes, l'insertion de code et de LaTeX, etc.",
-    techniques: "Swift et AppKit (TextKit), sans aucune dépendance externe. Un format de fichier à moi (.dmcl), compact et capable d'embarquer les images, avec chiffrement facultatif. Exports en PDF, DOCX, HTML et Markdown, et une batterie de plus de 400 tests automatisés.",
-    resultat: "Une vraie app que j'utilise au quotidien, qui s'ouvre vite et que je peux faire évoluer comme je veux. J'y ai appris qu'un outil perso demande autant de rigueur qu'un produit : ne jamais perdre une note passe avant toute nouveauté.",
+    techniques: "Swift et AppKit (TextKit), sans aucune dépendance externe. Un format de fichier (.dmcl) compact et capable d'embarquer les images, avec chiffrement et signature numérique possible. Exports en PDF, DJVU, DOCX, HTML et Markdown.",
+    resultat: "Une vraie application que j'utilise au quotidien, qui s'ouvre vite et que je peux faire évoluer comme je veux. J'ai même un format de fichier spécifique à l'application (.DMCL) qui est 9 fois plus léger qu'un fichier DOCX identique, 23 à 25 fois plus léger qu'un PDF et 70 fois plus léger qu'un fichier Pages (sur des documents de petite taille. Sur de grands documents, .dmcl est environ 1.7 fois plus léger que PDF, 2.1 à 2.5 fois plus léger que Pages mais 1.03 fois plus lourd qu'un DOCX compressé).",
   },
   {
     slug: "3cs-browser",
     titre: "3CS Browser",
     categorie: "Logiciel · Swift",
     annee: "2026",
-    cadre: "Projet perso",
+    cadre: "Projet personnel",
     resume: "Un navigateur MacOS à mon image, complet, rapide, customisable.",
     couleur: "bg-c3",
     tags: ["Swift", "SwiftUI", "WebKit"],
@@ -92,6 +93,7 @@ export type Travail = {
   imageMini: string;
   couleur: string;
   lien?: string; // externe, sinon page interne
+  iframe?: string; // site embarqué dans la page
   slug?: string;
   description?: string;
   contexte?: string;
@@ -109,7 +111,7 @@ export const travaux: Travail[] = [
   { titre: "Eishi", categorie: "Branding · Web", annee: "2025", cadre: "Université", image: "/previews/eishi.webp", imageMini: "/previews/mini/eishi.webp", couleur: "hover:bg-c2", lien: "http://eishi.free.nf" },
   { titre: "Vision", categorie: "Logo", annee: "2025", cadre: "Université", image: "/previews/eye.webp", imageMini: "/previews/mini/eye.webp", couleur: "hover:bg-c4", slug: "vision", description: "Création d'un logo autour du motif de l'œil, simple et mémorable." , role: "Conception de l'identité du logo, de la recherche à la déclinaison, seul.", processus: "Recherche autour de la forme de l'œil, tests de plusieurs constructions géométriques, puis simplification jusqu'à un signe lisible en petit comme en grand.", techniques: "Illustrator, construction sur grille, déclinaisons en couleur et en noir et blanc.", resultat: "Un logo net qui fonctionne sur fond clair ou sombre. Il reste à le tester sur un support réel." },
   { titre: "Le Monde de l'Urbex", categorie: "Webdocumentaire", annee: "2025", cadre: "Université", image: "/images/urbex.webp", imageMini: "/images/mini/urbex.webp", couleur: "hover:bg-c6", slug: "urbex", description: "Un webdocumentaire sur l'exploration urbaine : raconter des lieux abandonnés par l'image et le son, sur une page web." , role: "Projet d'équipe, avec les crédits en bas de page. Je me suis occupé de la direction visuelle et du design de l'interface.", processus: "Choix de l'angle éditorial, découpage en chapitres, maquettes de la navigation, puis intégration et ajustements avec l'équipe.", techniques: "Figma pour les maquettes, intégration web, images optimisées pour garder le site fluide malgré des visuels lourds.", resultat: "Un récit qui se parcourt comme un parcours dans un lieu. La coordination d'équipe a été le plus gros apprentissage." },
-  { titre: "Vassil.fr", categorie: "Web · 3D", annee: "2025", cadre: "Stage", image: "/previews/vassil.webp", imageMini: "/previews/mini/vassil.webp", couleur: "hover:bg-c4", slug: "vassil", tags: ["Figma", "Blender", "Web"], description: "Refonte du site d'un sculpteur animalier, avec intégration 3D légère.", contexte: "Vassil est un sculpteur animalier. Son site existant ne montrait pas bien ses pièces, et il voulait une vitrine plus moderne, qui fasse sentir le volume de son travail.", role: "Refonte réalisée pour un client : maquettes dans Figma, direction visuelle, modélisation 3D légère et intégration web. Je me suis occupé du design et de la 3D.", processus: "J'ai d'abord listé ce qui comptait pour lui : montrer les sculptures, rassurer les visiteurs et faciliter la prise de contact. Puis j'ai maquetté la structure, testé plusieurs mises en page et validé avec lui une version avant l'intégration.", techniques: "Maquettes Figma, modèles Blender optimisés pour le web, images compressées et accessibilité soignée (contrastes, navigation clavier). Le défi était de garder l'effet 3D sans alourdir les pages.", resultat: "Un site plus lisible qui met ses sculptures en valeur, validé par le client. J'y ai appris à arbitrer entre ce que je trouve beau et ce que le client et le web permettent." },];
+  { titre: "Vassil.fr", categorie: "Web · 3D", annee: "2025", cadre: "Stage", image: "/previews/vassil.webp", imageMini: "/previews/mini/vassil.webp", couleur: "hover:bg-c4", slug: "vassil", iframe: "https://vassil.fr", tags: ["Figma", "Blender", "Web"], description: "Refonte du site d'un sculpteur animalier, avec intégration 3D légère.", contexte: "Vassil est un sculpteur animalier. Son site existant ne montrait pas bien ses pièces, et il voulait une vitrine plus moderne, qui fasse sentir le volume de son travail.", role: "Refonte réalisée pour un client : maquettes dans Figma, direction visuelle, modélisation 3D légère et intégration web. Je me suis occupé du design et de la 3D.", processus: "J'ai d'abord listé ce qui comptait pour lui : montrer les sculptures, rassurer les visiteurs et faciliter la prise de contact. Puis j'ai maquetté la structure, testé plusieurs mises en page et validé avec lui une version avant l'intégration.", techniques: "Maquettes Figma, modèles Blender optimisés pour le web, images compressées et accessibilité soignée (contrastes, navigation clavier). Le défi était de garder l'effet 3D sans alourdir les pages.", resultat: "Un site plus lisible qui met ses sculptures en valeur, validé par le client. J'y ai appris à arbitrer entre ce que je trouve beau et ce que le client et le web permettent." },];
 
 // Pages projet : études + travaux sans lien externe
 export const pagesProjet: Etude[] = [
@@ -126,6 +128,7 @@ export const pagesProjet: Etude[] = [
       couleur: travail.couleur.replace("hover:", ""),
       tags: travail.tags ?? ["[Outils]"],
       image: travail.image,
+      iframe: travail.iframe,
       galerie: travail.galerie,
       contexte: travail.contexte ?? travail.description ?? "[Contexte.]",
       role: travail.role ?? "[Mon rôle exact.]",
