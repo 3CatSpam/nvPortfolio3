@@ -11,6 +11,14 @@ const liens = [
 ];
 ---
 
+<!-- Logo fixe, remplace celui des pages (masqué mais gardé pour la mise en page) -->
+<a
+  id="logo-fixe"
+  href="/#accueil"
+  aria-label="Accueil"
+  class="fixed top-6 left-5 z-40 grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm transition-[translate] duration-400 ease-[cubic-bezier(0.34,1.4,0.64,1)]"
+>AG</a>
+
 <button
   popovertarget="menu"
   class="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 rounded-xl border-3 border-encre bg-white py-1.5 pr-1.5 pl-4 font-black uppercase shadow-dur"
@@ -51,6 +59,32 @@ const liens = [
 </nav>
 
 <script>
+  // Un seul logo : fixe, il prend le lien de celui de la page (placé au même endroit)
+  const logoFixe = document.querySelector<HTMLAnchorElement>("#logo-fixe");
+  const logoPage = document.querySelector<HTMLAnchorElement>("[data-logo]");
+  if (logoFixe) {
+    if (logoPage) {
+      logoFixe.href = logoPage.href;
+      logoFixe.setAttribute("aria-label", logoPage.getAttribute("aria-label") ?? "Accueil");
+    }
+    // Pendant le scroll le logo remonte hors écran, il revient à l'arrêt
+    let arret: number;
+    const cacher = (cache: boolean) => {
+      logoFixe.classList.toggle("-translate-y-24", cache);
+      logoFixe.classList.toggle("pointer-events-none", cache);
+      logoFixe.toggleAttribute("inert", cache);
+    };
+    addEventListener(
+      "scroll",
+      () => {
+        cacher(true);
+        clearTimeout(arret);
+        arret = window.setTimeout(() => cacher(false), 250);
+      },
+      { passive: true },
+    );
+  }
+
   // Ferme le menu au clic sur un lien
   const menu = document.querySelector<HTMLElement>("#menu");
   menu?.querySelectorAll("a").forEach((lien) => {

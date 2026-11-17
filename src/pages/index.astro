@@ -36,14 +36,14 @@ const personne = {
   <main id="contenu" class="md:sticky md:top-0 md:flex md:h-dvh md:overflow-hidden">
     <section id="accueil" class="flex flex-col gap-5 p-5 pb-24 md:h-full md:w-screen md:shrink-0 md:px-10">
       <header class="flex h-14 items-center justify-between">
-        <a href="/#accueil" class="grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label="Accueil">AG</a>
+        <a href="/#accueil" data-logo class="invisible grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label="Accueil">AG</a>
         <div class="hidden items-center gap-3 md:flex">
           <span class="etiquette bg-c4">BUT MMI · 2e année</span>
           <span class="etiquette bg-white">Montbéliard</span>
         </div>
       </header>
 
-      <div class="grid flex-1 gap-6 md:grid-cols-[5fr_7fr]">
+      <div class="grid flex-1 grid-cols-[minmax(0,1fr)] gap-6 md:grid-cols-[5fr_7fr]">
         <div class="boite relative flex min-h-0 flex-col justify-between gap-5 bg-white p-6">
           <span class="etiquette absolute -top-6 -right-3 rotate-6 bg-c2 h-12! border-3! px-5! text-base! md:h-14! md:px-6! md:text-xl!">Design graphique &amp; 3D</span>
           <h1 class="font-titre text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.92] uppercase">Adam<br />Gosmat</h1>

@@ -97,6 +97,14 @@ const imagePartage = new URL("/og.png", Astro.site);
               if (reglage.espacement) titre.style.letterSpacing = reglage.espacement;
               if (reglage.interligne) titre.style.lineHeight = String((parseFloat(style.lineHeight) / parseFloat(style.fontSize)) * reglage.interligne);
             }
+            // Police large : réduit le titre qui déborde
+            if (getComputedStyle(titre).writingMode === "horizontal-tb") {
+              let taille = parseFloat(getComputedStyle(titre).fontSize);
+              for (let i = 0; i < 8 && titre.scrollWidth > titre.clientWidth + 1; i++) {
+                taille *= titre.clientWidth / titre.scrollWidth;
+                titre.style.fontSize = `${taille}px`;
+              }
+            }
           }
         }
 

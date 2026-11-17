@@ -10,7 +10,8 @@ const { horizontal = false } = Astro.props;
 
 <!-- Un écran exactement (100dvh) -->
 <section id="contact" class:list={["flex flex-col justify-between gap-[clamp(0.75rem,2.5vh,1.5rem)] border-encre px-5 pt-6 pb-24 transition-colors duration-[1500ms]", horizontal ? "min-h-dvh md:h-dvh md:min-h-0 md:w-screen md:shrink-0 md:overflow-hidden md:px-10" : "min-h-dvh md:px-10"]}>
-  <div class="flex items-center justify-between gap-3">
+  <!-- pl-16 mobile, pl-12 PC : place du logo fixe -->
+  <div class="flex items-center justify-between gap-3 pl-16 md:pl-12">
     <span class="etiquette bg-white">Contact</span>
     <div id="pastilles" class="flex items-center gap-2.5" role="group" aria-label="Couleur du fond"></div>
   </div>

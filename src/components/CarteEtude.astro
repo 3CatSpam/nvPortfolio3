@@ -23,7 +23,7 @@ const inclinaison = [-1.5, 1.2, -0.8][index] ?? 0;
     <span class="font-mono text-xs uppercase">{etude.categorie} · {etude.annee}</span>
   </div>
 
-  <div class="grid md:h-[calc(100%-2.75rem)] md:grid-cols-[1.15fr_1fr]">
+  <div class="grid grid-cols-[minmax(0,1fr)] md:h-[calc(100%-2.75rem)] md:grid-cols-[1.15fr_1fr]">
     <div class="relative aspect-[16/11] border-b-3 border-encre bg-c3 md:aspect-auto md:h-full md:border-r-3 md:border-b-0">
       {
         etude.modele ? (

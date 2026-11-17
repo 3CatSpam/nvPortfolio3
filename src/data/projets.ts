@@ -1,5 +1,3 @@
-// Toutes les données des projets. [Crochets] = brouillon.
-
 export type Vue = { src: string; alt: string; legende: string };
 
 export type Etude = {
@@ -13,7 +11,7 @@ export type Etude = {
   tags: string[];
   modele?: string;
   image?: string;
-  iframe?: string; // site embarqué
+  iframe?: string;
   images?: string[]; // aperçu accueil tiré au hasard
   galerie?: Vue[];
   contexte: string;

@@ -29,7 +29,7 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
 <Base titre={`${etude.titre} · Projet · Adam Gosmat`} description={etude.resume}>
   <div class="mx-auto max-w-6xl px-5">
     <header class="flex min-h-20 flex-wrap items-center justify-between gap-4 py-4">
-      <a href={estTravail ? "/#travaux" : "/#etudes"} class="grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label={estTravail ? "Retour aux autres travaux" : "Retour aux projets"}>AG</a>
+      <a data-logo href={estTravail ? "/#travaux" : "/#etudes"} class="invisible grid size-12 place-items-center rounded-full border-3 border-encre bg-c1 font-black shadow-dur-sm" aria-label={estTravail ? "Retour aux autres travaux" : "Retour aux projets"}>AG</a>
 
       <nav aria-label="Choisir un projet">
         <ul class="flex flex-wrap items-center gap-3">
