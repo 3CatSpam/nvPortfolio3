@@ -56,6 +56,30 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
         <div class="boite bg-c1 p-3"><dt class="font-mono text-xs uppercase">Cadre</dt><dd class="font-bold">{etude.cadre}</dd></div>
       </dl>
 
+      {
+        etude.galerie && etude.galerie.length > 0 ? (
+          <section class="carrousel" aria-roledescription="carrousel" aria-label={`Captures de ${etude.titre}`}>
+            <div class="boite relative overflow-hidden bg-c3">
+              <ul class="carrousel-piste flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" tabindex="0" aria-label="Captures, défiler horizontalement">
+                {etude.galerie.map((vue, i) => (
+                  <li class="w-full shrink-0 snap-center" aria-roledescription="diapositive" aria-label={`${i + 1} sur ${etude.galerie!.length}`}>
+                    <img src={vue.src} alt={vue.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" class="aspect-[1382/868] w-full object-cover" />
+                  </li>
+                ))}
+              </ul>
+              <button type="button" class="carrousel-prec etiquette absolute top-1/2 left-3 -translate-y-1/2 bg-white" aria-label="Capture précédente">←</button>
+              <button type="button" class="carrousel-suiv etiquette absolute top-1/2 right-3 -translate-y-1/2 bg-white" aria-label="Capture suivante">→</button>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <p class="carrousel-legende font-mono text-sm" aria-live="polite">{etude.galerie[0].legende}</p>
+              <div class="flex gap-2" role="group" aria-label="Choisir une capture">
+                {etude.galerie.map((vue, i) => (
+                  <button type="button" class="carrousel-point size-4 rounded-full border-3 border-encre bg-white aria-[current=true]:bg-encre" aria-label={`Capture ${i + 1}`} aria-current={i === 0 ? "true" : "false"} data-legende={vue.legende} />
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : (
       <div class="boite relative h-[min(70vh,640px)] overflow-hidden bg-c3">
         {
           etude.modele ? (
@@ -66,6 +90,8 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
         }
         {etude.modele && <span class="etiquette absolute bottom-4 left-4 bg-white">Glisser pour tourner</span>}
       </div>
+        )
+      }
 
       <div class="mt-20 grid gap-4">
         {
@@ -77,7 +103,7 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
               <!-- 0fr → 1fr anime une hauteur auto -->
               <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none group-aria-expanded:grid-rows-[1fr]">
                 <div class="overflow-hidden">
-                  <p class="max-w-[62ch] pt-4 text-lg">
+                  <p class="pt-4 text-lg">
                     {morceaux(partie.texte).map((m) => (m.startsWith("[") ? <mark class="brouillon">{m}</mark> : m))}
                   </p>
                 </div>
@@ -121,6 +147,35 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
         e.preventDefault();
         basculer();
       }
+    });
+  });
+  // Carrousel : défilement natif (scroll-snap) + flèches, points et clavier
+  document.querySelectorAll<HTMLElement>(".carrousel").forEach((car) => {
+    const piste = car.querySelector<HTMLElement>(".carrousel-piste")!;
+    const points = [...car.querySelectorAll<HTMLElement>(".carrousel-point")];
+    const legende = car.querySelector<HTMLElement>(".carrousel-legende")!;
+    let actuel = 0;
+    let fin = 0; // pendant l'animation d'un clic, le défilement ne réécrit pas l'index
+    const aller = (i: number) => {
+      const n = points.length;
+      const cible = (i + n) % n;
+      fin = Date.now() + 700;
+      actuel = cible; // mémorisé tout de suite : deux clics rapides avancent de deux
+      piste.scrollTo({ left: cible * piste.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    };
+    const courant = () => actuel;
+    piste.addEventListener("scroll", () => {
+      const i = Math.min(points.length - 1, Math.max(0, Math.round(piste.scrollLeft / piste.clientWidth)));
+      if (Date.now() > fin) actuel = i;
+      points.forEach((p, k) => p.setAttribute("aria-current", String(k === i)));
+      legende.textContent = points[i].dataset.legende ?? "";
+    }, { passive: true });
+    car.querySelector(".carrousel-prec")!.addEventListener("click", () => aller(courant() - 1));
+    car.querySelector(".carrousel-suiv")!.addEventListener("click", () => aller(courant() + 1));
+    points.forEach((p, i) => p.addEventListener("click", () => aller(i)));
+    piste.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); aller(courant() - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); aller(courant() + 1); }
     });
   });
   if (document.querySelector("model-viewer")) import("@google/model-viewer");

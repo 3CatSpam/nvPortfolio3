@@ -20,6 +20,7 @@
 ## Semaine de la soutenance:
 
 - J'ai mis a jour cloudflare pour le deploiement
+- J'ai réécris les textes placeholders
 
 ## Présence professionnelle (justification, 5 lignes)
 
