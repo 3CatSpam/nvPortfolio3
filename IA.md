@@ -32,4 +32,4 @@ Claude Sonnet 5.
 - [ ] J'ai vérifié les fichiers dans /src
 - [ ] J'ai vérifié les mentions légales et la politique de confidentialité
 - [ ] J'ai testé le site sur ordinateur, téléphone, au clavier et avec un lecteur d'écran.
-- [ ] j'ai effecté des audits (Lighthouse et audit venant d'un programme personlel)
+- [ ] j'ai effecté des audits (Lighthouse et audit venant d'un programme personnel)

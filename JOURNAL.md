@@ -24,4 +24,4 @@
 
 ## Présence professionnelle (justification, 5 lignes)
 
-parler de linkedin et genre github
+Je compte poster sur linkedin de manière régulière (une fois par semaine), en mettant mon Github dans mes futurs posts liés au code. 

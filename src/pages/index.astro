@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Contact from "../components/Contact.astro";
-import Pastille from "../components/Pastille.astro";
+import Cadran from "../components/Cadran.astro";
 import CarteEtude from "../components/CarteEtude.astro";
 import { etudes, travaux, sansAccents } from "../data/projets";
 
@@ -55,16 +55,8 @@ const personne = {
             <a href="/#contact" class="bouton bg-white">Me contacter</a>
           </div>
         </div>
-        <div class="boite flex flex-col items-center justify-center gap-6 overflow-hidden bg-c3 p-8">
-          <Pastille />
-          <ul class="flex flex-wrap justify-center gap-2">
-            <li class="etiquette bg-white">Blender</li>
-            <li class="etiquette bg-white">Illustrator</li>
-            <li class="etiquette bg-white">Photoshop</li>
-            <li class="etiquette bg-white">After Effects</li>
-            <li class="etiquette bg-white">Figma</li>
-          </ul>
-          <a href="/CV_GOSMAT_Adam.pdf" class="bouton bg-white">CV (PDF) ↓</a>
+        <div class="boite flex min-h-0 items-center justify-center overflow-hidden bg-c3 p-4 md:p-5">
+          <Cadran />
         </div>
       </div>
     </section>

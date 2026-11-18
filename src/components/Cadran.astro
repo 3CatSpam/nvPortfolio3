@@ -1,0 +1,337 @@
+---
+import { etudes, travaux } from "../data/projets";
+
+// Outils : logo dans /public/logos, angle du trou sur la plaque
+const outils = [
+  { nom: "Blender", logo: "/logos/blender.svg", trou: 60 },
+  { nom: "Illustrator", logo: "/logos/illustrator.svg", trou: 20 },
+  { nom: "Photoshop", logo: "/logos/photoshop.svg", trou: 340, aVenir: true },
+  { nom: "After Effects", logo: "/logos/after-effects.svg", trou: 300, aVenir: true },
+  { nom: "Figma", logo: "/logos/figma.svg", trou: 260 },
+  { nom: "VS Code", logo: "/logos/vscode.svg", trou: 220, slugs: ["vassil", "3cs-browser", "demicolon"] },
+  { nom: "Affinity", logo: "/logos/affinity.svg", trou: 180, titres: ["Eishi", "ESTRN", "Vision"] },
+];
+
+// Projets par outil : cherche le nom dans tags, catégorie et techniques
+const tous = [
+  ...etudes.map((e) => ({ titre: e.titre, href: `/projets/${e.slug}/`, img: e.image ?? e.images?.[0] ?? e.galerie?.[0]?.src, texte: [...e.tags, e.categorie, e.techniques].join(" ") })),
+  ...travaux
+    .filter((t) => t.slug || t.lien)
+    .map((t) => ({ titre: t.titre, href: t.lien ?? `/projets/${t.slug}/`, externe: !!t.lien, img: t.image, texte: [...(t.tags ?? []), t.categorie, t.techniques ?? ""].join(" ") })),
+];
+const fiches = outils.map((o) => ({
+  ...o,
+  projets: tous
+    .filter((p) => (o.titres ? o.titres.includes(p.titre) : o.slugs ? o.slugs.some((sl) => p.href === `/projets/${sl}/`) : p.texte.toLowerCase().includes(o.nom.toLowerCase())))
+    .sort((a, b) => (o.titres ? o.titres.indexOf(a.titre) - o.titres.indexOf(b.titre) : 0))
+    .map((p) => ({ titre: p.titre, href: p.href, externe: p.externe, img: p.img })),
+}));
+
+// Centre d'un trou dans le viewBox (centre 215, rayon 125)
+const centre = (deg: number) => {
+  const a = (deg * Math.PI) / 180;
+  return { x: 215 + 125 * Math.sin(a), y: 215 - 125 * Math.cos(a) };
+};
+---
+
+<div id="cadran" class="grid h-full min-h-0 w-full items-center gap-4 md:grid-cols-[minmax(0,1fr)_clamp(15rem,32%,23rem)]">
+  <div class="grid min-h-0 min-w-0 place-items-center md:h-full">
+  <!-- Cadran rotatif : trous et plaque tournent, noms, moyeu et butée restent fixes -->
+  <svg id="cadran-svg" viewBox="0 0 450 450" class="aspect-square w-full max-w-[26rem] touch-none select-none md:size-full md:max-w-none" role="group" aria-label="Cadran rotatif des outils">
+    <g transform="translate(10 10)">
+    <defs>
+      <path id="arc-outils" d="M24,215 A191,191 0 0 1 406,215"></path>
+    </defs>
+
+    <circle cx="215" cy="215" r="210" stroke="#111" stroke-width="6" class="fill-c6"></circle>
+
+    <!-- Noms : fixes pendant le glissé, l'outil choisi vient sous la butée -->
+    <g id="anneau" style="transform-origin: 215px 215px; transition: transform 0.8s ease-in-out" pointer-events="none">
+      {
+        fiches.map((f, i) => (
+          <text transform={`rotate(${i * (360 / fiches.length)} 215 215)`} font-family="Archivo, sans-serif" font-weight="900" font-size={fiches.length > 6 ? 13 : 16} letter-spacing={fiches.length > 6 ? 1 : 2} fill="#111">
+            <textPath href="#arc-outils" startOffset="50%" text-anchor="middle">{f.nom.toUpperCase()}</textPath>
+          </text>
+        ))
+      }
+    </g>
+
+    <g id="plaque" style="transform-origin: 215px 215px; cursor: grab">
+      <circle cx="215" cy="215" r="172" stroke="#111" stroke-width="4" fill="#fff"></circle>
+      {
+        fiches.map((f, i) => (
+          <g data-outil={i} role="button" tabindex="0" aria-label={f.nom} transform={`translate(${centre(f.trou).x} ${centre(f.trou).y})`}>
+            <circle data-halo={i} r="39" fill="none" stroke="#ffdb33" stroke-width="4" opacity="0"></circle>
+            <circle r="35" fill="#fff" stroke="#111" stroke-width="5"></circle>
+            <image href={f.logo} x="-22" y="-22" width="44" height="44" preserveAspectRatio="xMidYMid meet" pointer-events="none"></image>
+          </g>
+        ))
+      }
+    </g>
+
+    <!-- Moyeu fixe -->
+    <circle cx="215" cy="215" r="62" stroke="#111" stroke-width="6" class="fill-c4"></circle>
+    <text x="215" y="235" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="54" fill="#111" pointer-events="none">AG</text>
+
+    <!-- Butée fixe à 4 h : seul repère, le nom choisi vient en face -->
+    <g transform="rotate(120 215 215)">
+      <rect x="207" y="-28" width="16" height="30" rx="8" fill="#111" stroke="#fff" stroke-width="2"></rect>
+    </g>
+    </g>
+  </svg>
+  </div>
+
+  <!-- Fiche de l'outil : titre, carrousel des aperçus, projets -->
+  <div class="boite flex min-h-0 w-full max-w-sm flex-col gap-3.5 justify-self-center bg-white p-4 md:max-h-full md:max-w-none md:overflow-hidden" aria-live="polite">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <img id="fiche-logo" alt="" class="size-14 shrink-0 rounded-full border-3 border-encre bg-white object-contain p-1.5 shadow-dur-sm" />
+      <span id="fiche-nom" class="min-w-0 font-titre text-3xl leading-none uppercase"></span>
+    </div>
+    <a id="carrousel" href="/" class="relative block aspect-square shrink-0 overflow-hidden rounded-lg border-3 border-encre bg-fond">
+      <span id="carrousel-images"></span>
+      <span id="carrousel-titre" class="etiquette absolute bottom-1.5 left-1.5 bg-white"></span>
+    </a>
+    <span class="font-mono text-xs uppercase">Utilisé dans</span>
+    <ul id="fiche-projets" class="flex flex-wrap gap-1.5"></ul>
+    <div class="mt-auto flex items-center justify-between">
+      <button id="cadran-prec" type="button" class="bouton bg-white px-3! py-1!" aria-label="Outil précédent">←</button>
+      <span id="fiche-compteur" class="font-mono text-sm"></span>
+      <button id="cadran-suiv" type="button" class="bouton bg-white px-3! py-1!" aria-label="Outil suivant">→</button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ fiches }}>
+  const racine = document.querySelector("#cadran");
+  const svg = racine.querySelector("#cadran-svg");
+  const plaque = racine.querySelector("#plaque");
+  const anneau = racine.querySelector("#anneau");
+  const halos = racine.querySelectorAll("[data-halo]");
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const N = fiches.length;
+  const BUTEE = 120; // angle de la butée, sens horaire depuis le haut
+  // Course utile : le plus long tour en sens horaire, 140° en arrière
+  const MAX = Math.max(...fiches.map((f) => (BUTEE - f.trou + 360) % 360)) + 10;
+  const MIN = -140;
+  const RETOUR = "transform 0.45s cubic-bezier(0.2, 0.8, 0.3, 1)";
+
+  let choix = 0;
+  let anneauAngle = 0; // cumulé : pas de tour à l'envers
+  let auto = false; // défilement des outils tant que personne ne touche
+  let minuteurs = [];
+
+  // Tour horaire pour amener le trou i sur la butée
+  const tour = (i) => (BUTEE - fiches[i].trou + 360) % 360;
+
+  function poser(deg, transition) {
+    plaque.style.transition = transition;
+    plaque.style.transform = `rotate(${deg}deg)`;
+  }
+
+  // Angle réel de la plaque, même en pleine animation
+  function angleActuel() {
+    const m = new DOMMatrix(getComputedStyle(plaque).transform);
+    const a = (Math.atan2(m.b, m.a) * 180) / Math.PI;
+    return a < 0 ? a + 360 : a;
+  }
+
+  function annuler() {
+    minuteurs.forEach(clearTimeout);
+    minuteurs = [];
+  }
+
+  function afficher(i) {
+    const f = fiches[i];
+    racine.querySelector("#fiche-logo").src = f.logo;
+    racine.querySelector("#fiche-nom").textContent = f.nom;
+    racine.querySelector("#fiche-compteur").textContent = `${i + 1} / ${N}`;
+    const liste = racine.querySelector("#fiche-projets");
+    liste.replaceChildren();
+    if (!f.projets.length) {
+      const li = document.createElement("li");
+      li.className = "font-mono text-sm";
+      li.textContent = f.aVenir ? "À venir" : "Bientôt des projets ici";
+      liste.append(li);
+    }
+    f.projets.forEach((p) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = p.href;
+      if (p.externe) {
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.className = "etiquette bg-fond";
+      a.textContent = `${p.titre} ${p.externe ? "↗" : "→"}`;
+      li.append(a);
+      liste.append(li);
+    });
+    halos.forEach((h, k) => h.setAttribute("opacity", k === i ? "1" : "0"));
+    carrousel(f.projets.filter((p) => p.img));
+  }
+
+  // --- Carrousel des aperçus : change toutes les 4 s, pause au survol ---
+  const zone = racine.querySelector("#carrousel");
+  const pile = racine.querySelector("#carrousel-images");
+  const legende = racine.querySelector("#carrousel-titre");
+  let vues = [];
+  let courante = 0;
+  let minuteurVue = null;
+  let survol = false;
+
+  function montrer(k) {
+    courante = k;
+    pile.querySelectorAll("img").forEach((img, j) => (img.style.opacity = j === k ? "1" : "0"));
+    legende.textContent = vues[k].titre;
+    zone.href = vues[k].href;
+    zone.target = vues[k].externe ? "_blank" : "";
+    zone.rel = vues[k].externe ? "noopener" : "";
+  }
+
+  function carrousel(liste) {
+    clearInterval(minuteurVue);
+    vues = liste;
+    zone.classList.toggle("hidden", !liste.length);
+    pile.replaceChildren();
+    courante = 0;
+    if (!liste.length) {
+      if (!reduit) minuteurVue = setInterval(tick, 4000);
+      return;
+    }
+    liste.forEach((p) => {
+      const img = document.createElement("img");
+      img.src = p.img;
+      img.alt = "";
+      img.loading = "lazy";
+      img.className = "absolute inset-0 size-full object-cover transition-opacity duration-500";
+      img.style.opacity = "0";
+      pile.append(img);
+    });
+    montrer(0);
+    if (!reduit) minuteurVue = setInterval(tick, 4000);
+  }
+
+  // Toutes les 4 s : aperçu suivant ; après le dernier, l'outil suivant (si personne n'a touché)
+  function tick() {
+    if (survol || prise) return;
+    if (courante < vues.length - 1) montrer(courante + 1);
+    else if (auto) composer((choix + 1) % N);
+    else if (vues.length > 1) montrer(0);
+  }
+  zone.addEventListener("pointerenter", () => (survol = true));
+  zone.addEventListener("pointerleave", () => (survol = false));
+
+  // Amène le nom de l'outil i en face de la butée, par le chemin le plus court
+  function placerNom(i, anime) {
+    const voulu = BUTEE - i * (360 / N);
+    anneauAngle += ((((voulu - anneauAngle) % 360) + 540) % 360) - 180;
+    anneau.style.transition = anime && !reduit ? "transform 0.5s ease-in-out" : "none";
+    anneau.style.transform = `rotate(${anneauAngle}deg)`;
+  }
+
+  // Outil validé : la plaque revient en ressort
+  function valider(i) {
+    choix = i;
+    afficher(i);
+    placerNom(i, true);
+    poser(0, reduit ? "none" : RETOUR);
+  }
+
+  // Cadran lancé tout seul (clic, flèches, lecture auto)
+  function composer(i) {
+    annuler();
+    poser(tour(i), reduit ? "none" : "transform 0.35s ease-in");
+    minuteurs.push(setTimeout(() => valider(i), reduit ? 0 : 400));
+  }
+
+  function arreterAuto() {
+    auto = false;
+  }
+
+  // --- Glisser : la plaque suit le doigt, dans les deux sens ---
+  let prise = null;
+  const angleSouris = (e, c) => (Math.atan2(e.clientX - c.x, c.y - e.clientY) * 180) / Math.PI;
+  // Écart signé entre le trou k et la butée pour une plaque tournée de `angle`
+  const ecartButee = (k, angle) => ((((angle + fiches[k].trou - BUTEE) % 360) + 540) % 360) - 180;
+
+  svg.addEventListener("pointerdown", (e) => {
+    const r = svg.getBoundingClientRect();
+    const c = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    // Le moyeu ne tourne pas : 62/450 du côté dessiné
+    if (Math.hypot(e.clientX - c.x, e.clientY - c.y) < Math.min(r.width, r.height) * 0.138) return;
+    arreterAuto();
+    annuler();
+    const depart = angleActuel();
+    poser(depart, "none");
+    // Pour un simple clic : le trou le plus proche de la souris
+    const a = angleSouris(e, c);
+    let cible = 0;
+    let ecart = 999;
+    fiches.forEach((f, k) => {
+      const d = Math.abs(((((a - (f.trou + depart)) % 360) + 540) % 360) - 180);
+      if (d < ecart) {
+        ecart = d;
+        cible = k;
+      }
+    });
+    prise = { cible, c, dernier: a, angle: depart, bouge: 0 };
+    window.addEventListener("pointermove", glisser);
+    window.addEventListener("pointerup", relacher);
+    window.addEventListener("pointercancel", relacher);
+  });
+
+  function glisser(e) {
+    if (!prise) return;
+    const a = angleSouris(e, prise.c);
+    let d = a - prise.dernier;
+    if (d > 180) d -= 360;
+    if (d < -180) d += 360;
+    prise.dernier = a;
+    prise.bouge += Math.abs(d);
+    prise.angle = Math.max(MIN, Math.min(MAX, prise.angle + d)); // pas de tour inutile
+    poser(prise.angle, "none");
+  }
+
+  function relacher() {
+    if (!prise) return;
+    window.removeEventListener("pointermove", glisser);
+    window.removeEventListener("pointerup", relacher);
+    window.removeEventListener("pointercancel", relacher);
+    const { cible, angle, bouge } = prise;
+    prise = null;
+    if (bouge < 4) return composer(cible); // simple clic
+    // Trou arrivé sur la butée (à 20° près) : c'est l'outil choisi
+    let k = 0;
+    fiches.forEach((_, j) => {
+      if (Math.abs(ecartButee(j, angle)) < Math.abs(ecartButee(k, angle))) k = j;
+    });
+    if (Math.abs(ecartButee(k, angle)) < 20) valider(k);
+    else poser(0, reduit ? "none" : "transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1)");
+  }
+
+  // Clavier : Entrée ou Espace sur un trou
+  racine.querySelectorAll("[data-outil]").forEach((b) =>
+    b.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      arreterAuto();
+      composer(Number(b.dataset.outil));
+    }),
+  );
+  racine.querySelector("#cadran-prec").addEventListener("click", () => {
+    arreterAuto();
+    composer((choix + N - 1) % N);
+  });
+  racine.querySelector("#cadran-suiv").addEventListener("click", () => {
+    arreterAuto();
+    composer((choix + 1) % N);
+  });
+
+  // La lecture auto s'arrête dès que la souris arrive sur le cadran
+  svg.addEventListener("pointerenter", arreterAuto);
+
+  afficher(0);
+  placerNom(0, false);
+  poser(0, "none");
+  auto = !reduit;
+</script>
