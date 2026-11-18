@@ -10,11 +10,11 @@ const { horizontal = false } = Astro.props;
 
 <!-- Un écran exactement (100dvh) -->
 <section id="contact" class:list={["flex flex-col justify-between gap-[clamp(0.75rem,2.5vh,1.5rem)] border-encre px-5 pt-6 pb-24 transition-colors duration-[1500ms]", horizontal ? "min-h-dvh md:h-dvh md:min-h-0 md:w-screen md:shrink-0 md:overflow-hidden md:px-10" : "min-h-dvh md:px-10"]}>
-  <!-- pl-16 mobile, pl-12 PC : place du logo fixe -->
+  <!-- pl-16 mobile, pl-12 PC : place du logo fixe. Pastilles : wrap, sinon débord horizontal -->
   <div class="flex items-center justify-between gap-3 pl-16 md:pl-12">
     <!-- Recale sur l'écran contact -->
     <a href={horizontal ? "/#contact" : "#contact"} class="etiquette bg-white">Contact</a>
-    <div id="pastilles" class="flex items-center gap-2.5" role="group" aria-label="Couleur du fond"></div>
+    <div id="pastilles" class="flex min-w-0 flex-wrap items-center justify-end gap-2 md:gap-2.5" role="group" aria-label="Couleur du fond"></div>
   </div>
 
   <h2 class="font-titre text-[clamp(2.5rem,min(7.5vw,12vh),8rem)] leading-[0.9] uppercase">On fabrique un truc ?</h2>
@@ -66,7 +66,7 @@ function choisirCouleur(i: number) {
 
 couleurs.forEach((couleur, i) => {
   const bouton = document.createElement("button");
-  bouton.className = `size-8 rounded-md border-2 border-encre shadow-dur-sm aria-pressed:translate-0.5 aria-pressed:shadow-none ${couleur}`;
+  bouton.className = `size-6 rounded-md md:size-8 border-2 border-encre shadow-dur-sm aria-pressed:translate-0.5 aria-pressed:shadow-none ${couleur}`;
   bouton.setAttribute("aria-label", `Fond ${couleur.replace("bg-", "")}`);
   bouton.addEventListener("click", () => choisirCouleur(i));
   pastilles.append(bouton);
