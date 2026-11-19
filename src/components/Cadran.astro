@@ -142,7 +142,9 @@ const centre = (deg: number) => {
 
   function afficher(i) {
     const f = fiches[i];
-    racine.querySelector("#fiche-logo").src = f.logo;
+    const logo = racine.querySelector("#fiche-logo");
+    logo.src = f.logo;
+    logo.alt = `Logo ${f.nom}`;
     racine.querySelector("#fiche-nom").textContent = f.nom;
     racine.querySelector("#fiche-compteur").textContent = `${i + 1} / ${N}`;
     const liste = racine.querySelector("#fiche-projets");

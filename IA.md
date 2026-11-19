@@ -10,7 +10,7 @@ Claude Sonnet 5.
 
 | Étape | Ce que j'ai demandé | Ce que l'IA a produit | Ce que j'ai gardé, modifié ou rejeté |
 
-| Développement | Passer la maquette en Astro + Tailwind | Composants, pages légales, mini-jeu | J'ai gardé ce que j'ai compris, et demandé clarification pour ce que je n'ai pas compris. J'ai cependant du modifier les textes et ajouter  |
+| Développement | Passer la maquette en Astro + Tailwind | Composants, pages légales | J'ai gardé ce que j'ai compris, et demandé clarification pour ce que je n'ai pas compris. J'ai cependant du modifier les textes et ajouter  |
 | Développement | Récupéré les informations venant de mon ancien portfolio | L'ia a tout récupéré, j'ai donc du faire le tri |
 | Rédaction | QUALITE.md, textes légaux, IA.md | j'ai gardé le légal, et la mise en page de IA.md mais réécris le IA.md |
 | Debugging | aider a régler un problème avec npm run dev qui ne marchait pas (500go de ram utilisé (j'ai preuve), l'ordinateur a planté, puis npm run dev ne se lancait plus) | suivant les instructions de claude, j'ai reinstallé une ancienne version de node, retiré node modules puis refait npm install et ça à marché, sauf que quand j'allais sur la page, elle charge à l'infini, sans rien montrer. J'ai retiré l'ancien portfolio du dossier, fait une bonne quinzaines de curl, de ps aux et de sample. Ce qui à marché: j'ai (de mon propre chef) créé un nouveau dossier ou j'ai tout réinstallé et pris l'ancien src, et ça à marché. |

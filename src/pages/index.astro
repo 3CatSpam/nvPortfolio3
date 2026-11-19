@@ -92,7 +92,7 @@ const personne = {
         {
           travaux.map((travail) => (
             <li data-apercu={encodeURI(travail.imageMini)} class={`relative grid grid-cols-[4.5rem_1fr_auto] items-center gap-4 p-2.5 pr-5 first:rounded-t-[7px] last:rounded-b-[7px] md:grid-cols-[4.5rem_1.3fr_1fr_auto] ${travail.couleur}`}>
-              <img src={encodeURI(travail.imageMini)} alt="" loading="lazy" decoding="async" class="aspect-square w-full rounded-md border-2 border-encre bg-fond object-cover" />
+              <img src={encodeURI(travail.imageMini)} alt={`Aperçu du projet ${travail.titre}`} loading="lazy" decoding="async" class="aspect-square w-full rounded-md border-2 border-encre bg-fond object-cover" />
               {travail.lien ? (
                 <a href={travail.lien} target="_blank" rel="noopener" class="text-xl font-bold underline-offset-4 after:absolute after:inset-0 after:content-[''] hover:underline md:text-2xl">{travail.titre} ↗</a>
               ) : (

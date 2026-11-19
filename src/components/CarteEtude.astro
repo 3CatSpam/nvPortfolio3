@@ -16,8 +16,6 @@ const inclinaison = [-1.5, 1.2, -0.8][index] ?? 0;
   class="boite group/carte sticky cursor-pointer top-(--haut) w-full shrink-0 overflow-hidden bg-white md:top-auto md:left-(--gauche) md:h-[min(74vh,720px)] md:w-[min(780px,56vw)]"
   style={`--gauche: calc(3rem + ${index} * 2.25rem); --haut: calc(1rem + ${index} * 1.5rem); rotate: ${inclinaison}deg; z-index: ${index + 1};`}
 >
-  <!-- Carte cliquable ; le bouton reste le lien accessible -->
-  <a href={`/projets/${etude.slug}/`} class="absolute inset-0 z-10" aria-hidden="true" tabindex="-1"></a>
   <div class={`flex h-11 items-center justify-between gap-3 border-b-3 border-encre px-4 ${etude.couleur}`}>
     <strong class="font-black uppercase">Projet {numero}</strong>
     <span class="font-mono text-xs uppercase">{etude.categorie} · {etude.annee}</span>
@@ -30,7 +28,7 @@ const inclinaison = [-1.5, 1.2, -0.8][index] ?? 0;
           <model-viewer src={etude.modele} alt={`${etude.titre}, modèle 3D animé`} autoplay auto-rotate disable-zoom interaction-prompt="none" loading="lazy" class="absolute inset-0 size-full"></model-viewer>
         ) : (
           <>
-            <img src={etude.image} alt={etude.titre} loading="lazy" class="absolute inset-0 size-full object-cover" />
+            <img src={etude.image} alt={`Aperçu du projet ${etude.titre}`} loading="lazy" class="absolute inset-0 size-full object-cover" />
             {etude.images && etude.images.length > 1 && (
               <script is:inline set:html={`document.currentScript.previousElementSibling.src = ${JSON.stringify(etude.images)}[Math.floor(Math.random() * ${etude.images.length})];`} />
             )}
@@ -47,7 +45,7 @@ const inclinaison = [-1.5, 1.2, -0.8][index] ?? 0;
       <ul class="flex flex-wrap gap-2">
         {etude.tags.map((tag) => <li class="etiquette bg-white">{tag}</li>)}
       </ul>
-      <a href={`/projets/${etude.slug}/`} class={`bouton relative z-20 self-start ${etude.couleur}`}>En Savoir Plus →</a>
+      <a href={`/projets/${etude.slug}/`} class={`bouton self-start after:absolute after:inset-0 after:z-10 after:content-[''] ${etude.couleur}`}>En Savoir Plus →</a>
     </div>
   </div>
 </article>
