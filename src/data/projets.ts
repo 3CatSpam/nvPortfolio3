@@ -11,7 +11,7 @@ export type Etude = {
   tags: string[];
   modele?: string;
   image?: string;
-  iframe?: string;
+  site?: string; // bouton vers le site en ligne
   images?: string[]; // aperçu accueil tiré au hasard
   galerie?: Vue[];
   contexte: string;
@@ -91,7 +91,7 @@ export type Travail = {
   imageMini: string;
   couleur: string;
   lien?: string; // externe, sinon page interne
-  iframe?: string; // site embarqué dans la page
+  site?: string; // bouton vers le site en ligne
   slug?: string;
   description?: string;
   contexte?: string;
@@ -109,7 +109,7 @@ export const travaux: Travail[] = [
   { titre: "Eishi", categorie: "Branding · Web", annee: "2025", cadre: "Université", image: "/previews/eishi.webp", imageMini: "/previews/mini/eishi.webp", couleur: "hover:bg-c2", lien: "https://eishi.free.nf" },
   { titre: "Vision", categorie: "Logo", annee: "2025", cadre: "Université", image: "/previews/eye.webp", imageMini: "/previews/mini/eye.webp", couleur: "hover:bg-c4", slug: "vision", description: "Création d'un logo autour du motif de l'œil, simple et mémorable." , role: "Conception de l'identité du logo, de la recherche à la déclinaison, seul.", processus: "Recherche autour de la forme de l'œil, tests de plusieurs constructions géométriques, puis simplification jusqu'à un signe lisible en petit comme en grand.", techniques: "Illustrator, construction sur grille, déclinaisons en couleur et en noir et blanc.", resultat: "Un logo net qui fonctionne sur fond clair ou sombre. Il reste à le tester sur un support réel." },
   { titre: "Le Monde de l'Urbex", categorie: "Webdocumentaire", annee: "2025", cadre: "Université", image: "/images/urbex.webp", imageMini: "/images/mini/urbex.webp", couleur: "hover:bg-c6", slug: "urbex", description: "Un webdocumentaire sur l'exploration urbaine : raconter des lieux abandonnés par l'image et le son, sur une page web." , role: "Projet d'équipe, avec les crédits en bas de page. Je me suis occupé de la direction visuelle et du design de l'interface.", processus: "Choix de l'angle éditorial, découpage en chapitres, maquettes de la navigation, puis intégration et ajustements avec l'équipe.", techniques: "Figma pour les maquettes, intégration web, images optimisées pour garder le site fluide malgré des visuels lourds.", resultat: "Un récit qui se parcourt comme un parcours dans un lieu. La coordination d'équipe a été le plus gros apprentissage." },
-  { titre: "Vassil.fr", categorie: "Web · 3D", annee: "2025", cadre: "Stage", image: "/previews/vassil.webp", imageMini: "/previews/mini/vassil.webp", couleur: "hover:bg-c4", slug: "vassil", iframe: "https://vassil.fr", tags: ["Figma", "Blender", "Web"], description: "Refonte du site d'un sculpteur animalier, avec intégration 3D légère.", contexte: "Vassil est un sculpteur animalier. Son site existant ne montrait pas bien ses pièces, et il voulait une vitrine plus moderne, qui fasse sentir le volume de son travail.", role: "Refonte réalisée pour un client : maquettes dans Figma, direction visuelle, modélisation 3D légère et intégration web. Je me suis occupé du design et de la 3D.", processus: "J'ai d'abord listé ce qui comptait pour lui : montrer les sculptures, rassurer les visiteurs et faciliter la prise de contact. Puis j'ai maquetté la structure, testé plusieurs mises en page et validé avec lui une version avant l'intégration.", techniques: "Maquettes Figma, modèles Blender optimisés pour le web, images compressées et accessibilité soignée (contrastes, navigation clavier). Le défi était de garder l'effet 3D sans alourdir les pages.", resultat: "Un site plus lisible qui met ses sculptures en valeur, validé par le client. J'y ai appris à arbitrer entre ce que je trouve beau et ce que le client et le web permettent." },];
+  { titre: "Vassil.fr", categorie: "Web · 3D", annee: "2025", cadre: "Stage", image: "/previews/vassil.webp", imageMini: "/previews/mini/vassil.webp", couleur: "hover:bg-c4", slug: "vassil", site: "https://vassil.fr", tags: ["Figma", "Blender", "Web"], description: "Refonte du site d'un sculpteur animalier, avec intégration 3D légère.", contexte: "Vassil est un sculpteur animalier. Son site existant ne montrait pas bien ses pièces, et il voulait une vitrine plus moderne, qui fasse sentir le volume de son travail.", role: "Refonte réalisée pour un client : maquettes dans Figma, direction visuelle, modélisation 3D légère et intégration web. Je me suis occupé du design et de la 3D.", processus: "J'ai d'abord listé ce qui comptait pour lui : montrer les sculptures, rassurer les visiteurs et faciliter la prise de contact. Puis j'ai maquetté la structure, testé plusieurs mises en page et validé avec lui une version avant l'intégration.", techniques: "Maquettes Figma, modèles Blender optimisés pour le web, images compressées et accessibilité soignée (contrastes, navigation clavier). Le défi était de garder l'effet 3D sans alourdir les pages.", resultat: "Un site plus lisible qui met ses sculptures en valeur, validé par le client. J'y ai appris à arbitrer entre ce que je trouve beau et ce que le client et le web permettent." },];
 
 // Pages projet : études + travaux sans lien externe
 export const pagesProjet: Etude[] = [
@@ -126,7 +126,7 @@ export const pagesProjet: Etude[] = [
       couleur: travail.couleur.replace("hover:", ""),
       tags: travail.tags ?? ["[Outils]"],
       image: travail.image,
-      iframe: travail.iframe,
+      site: travail.site,
       galerie: travail.galerie,
       contexte: travail.contexte ?? travail.description ?? "[Contexte.]",
       role: travail.role ?? "[Mon rôle exact.]",

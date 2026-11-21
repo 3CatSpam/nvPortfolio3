@@ -73,24 +73,22 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
             <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
               <div class="flex gap-2" role="group" aria-label="Choisir une capture">
                 {etude.galerie.map((vue, i) => (
-                  <button type="button" class="carrousel-point size-4 rounded-full border-3 border-encre bg-white aria-[current=true]:bg-encre" aria-label={`Capture ${i + 1}`} aria-current={i === 0 ? "true" : "false"} />
+                  <button type="button" class="carrousel-point size-6 rounded-full border-3 border-encre bg-white aria-[current=true]:bg-encre" aria-label={`Capture ${i + 1}`} aria-current={i === 0 ? "true" : "false"} />
                 ))}
               </div>
             </div>
           </section>
         ) : (
-      <div data-lenis-prevent data-verrou={etude.iframe || etude.modele ? "" : undefined} class="boite relative h-[min(70vh,640px)] overflow-hidden overscroll-contain bg-c3">
+      <div data-lenis-prevent data-verrou={etude.modele ? "" : undefined} class="boite relative h-[min(70vh,640px)] overflow-hidden overscroll-contain bg-c3">
         {
-          etude.iframe ? (
-            <iframe src={etude.iframe} title={`Site ${etude.titre}`} loading="lazy" class="size-full border-0 bg-white"></iframe>
-          ) : etude.modele ? (
+          etude.modele ? (
             <model-viewer src={etude.modele} alt={`${etude.titre}, modèle 3D animé`} camera-controls autoplay auto-rotate shadow-intensity="1" interaction-prompt="none" class="size-full"></model-viewer>
           ) : (
             <img src={etude.image} alt={etude.titre} data-zoom class="size-full cursor-zoom-in object-cover" />
           )
         }
         {etude.modele && <span class="etiquette absolute bottom-4 left-4 bg-white">Glisser pour tourner</span>}
-        {etude.iframe && <a href={etude.iframe} target="_blank" rel="noopener" class="etiquette absolute right-4 bottom-4 bg-white">Ouvrir le site ↗</a>}
+        {etude.site && <a href={etude.site} target="_blank" rel="noopener" class="etiquette absolute right-4 bottom-4 bg-white">Cliquer pour aller sur le site ↗</a>}
       </div>
         )
       }
@@ -126,9 +124,9 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
     <div class="boite inline-flex flex-col overflow-hidden bg-c5">
       <div class="grid h-12 shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-3 border-b-3 border-encre bg-fond px-3">
         <div class="group/feux flex items-center gap-2">
-          <button type="button" popovertarget="apercu-fenetre" popovertargetaction="hide" class="grid size-5 place-items-center rounded-full border-2 border-encre bg-c2" aria-label="Fermer"><span class="text-sm leading-none font-black opacity-0 group-hover/feux:opacity-100" aria-hidden="true">×</span></button>
-          <span class="grid size-5 place-items-center rounded-full border-2 border-encre bg-c1" aria-hidden="true"><span class="text-sm leading-none font-black opacity-0 group-hover/feux:opacity-100">−</span></span>
-          <span class="grid size-5 place-items-center rounded-full border-2 border-encre bg-c4" aria-hidden="true"><svg viewBox="0 0 10 10" class="size-2.5 opacity-0 group-hover/feux:opacity-100" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2 1 5l3 3M6 2l3 3-3 3"/></svg></span>
+          <button type="button" popovertarget="apercu-fenetre" popovertargetaction="hide" class="grid size-6 place-items-center rounded-full border-2 border-encre bg-c2" aria-label="Fermer"><span class="text-sm leading-none font-black opacity-0 group-hover/feux:opacity-100" aria-hidden="true">×</span></button>
+          <span class="grid size-6 place-items-center rounded-full border-2 border-encre bg-c1" aria-hidden="true"><span class="text-sm leading-none font-black opacity-0 group-hover/feux:opacity-100">−</span></span>
+          <span class="grid size-6 place-items-center rounded-full border-2 border-encre bg-c4" aria-hidden="true"><svg viewBox="0 0 10 10" class="size-2.5 opacity-0 group-hover/feux:opacity-100" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2 1 5l3 3M6 2l3 3-3 3"/></svg></span>
         </div>
         <p id="apercu-titre" class="min-w-0 truncate font-mono text-xs uppercase">{sansAccents(etude.titre)}</p>
         <span aria-hidden="true"></span>
@@ -139,7 +137,7 @@ const morceaux = (texte: string) => texte.split(/(\[[^\]]+\])/).filter(Boolean);
 </Base>
 
 <script>
-  // Souris sur iframe/3D : Lenis en pause, la page ne défile pas
+  // Souris sur la 3D : Lenis en pause, la page ne défile pas
   const racine = document.documentElement;
   const lenis = () => (window as any).lenis;
   document.querySelectorAll<HTMLElement>("[data-verrou]").forEach((zone) => {

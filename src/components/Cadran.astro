@@ -203,7 +203,7 @@ const centre = (deg: number) => {
     liste.forEach((p) => {
       const img = document.createElement("img");
       img.src = p.img;
-      img.alt = "";
+      img.alt = `Aperçu du projet ${p.titre}`;
       img.loading = "lazy";
       img.className = "absolute inset-0 size-full object-cover transition-opacity duration-500";
       img.style.opacity = "0";
